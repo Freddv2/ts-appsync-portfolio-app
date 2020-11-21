@@ -1,0 +1,17 @@
+type Stock {
+    portfolioId: String!
+    stock: String!
+    shares: Int!
+    buyPrice: Int!
+    buyCost: Int!
+    marketPrice: Int!
+    totalValue: Int!
+}
+
+type Query {
+    getStocks : [Stock!]!
+}
+
+schema {
+    query: Query
+}

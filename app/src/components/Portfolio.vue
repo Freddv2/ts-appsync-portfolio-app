@@ -21,6 +21,9 @@
         <th class="text-left">
           Total Value
         </th>
+        <th class="text-left">
+          Gain
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -34,6 +37,7 @@
         <td>{{ item.marketPrice }}</td>
         <td>{{ item.buyCost }}</td>
         <td>{{ item.totalValue }}</td>
+        <td>{{ (item.totalValue - item.buyCost) / item.buyCost * 100 + '%' }}</td>
       </tr>
       </tbody>
     </template>
@@ -41,13 +45,19 @@
 </template>
 
 <script>
-export default {
-  name: 'App',
+import {API} from "@aws-amplify/api";
+import * as queries from '../graphql/queries'
 
+export default {
+  name: 'Portfolio',
   data() {
     return {
       stocks: [],
     }
   },
+  created: async function () {
+    const res = await API.graphql({query: queries.getStocks});
+    this.stocks = res.data.getStocks;
+  }
 };
 </script>
