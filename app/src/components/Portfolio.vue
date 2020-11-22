@@ -49,15 +49,17 @@
       </v-simple-table>
     </v-card-text>
     <v-card-actions>
-      <v-btn
-        :disabled="loading"
-        :loading="loading"
-        color="secondary"
-        @click="loader = 'loading'"
-      >
-        Reset
-      </v-btn>
-      <v-col />
+      <v-col class="text-right">
+        <v-btn
+          :disabled="loading"
+          :loading="loading"
+          :right="true"
+          color="secondary"
+          @click="loader = 'loading'"
+        >
+          Reset
+        </v-btn>
+      </v-col>
     </v-card-actions>
   </v-card>
 </template>
