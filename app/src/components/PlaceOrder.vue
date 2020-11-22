@@ -1,6 +1,9 @@
 <template>
-  <v-form>
-    <v-container>
+  <v-card>
+    <v-card-title>
+      Buy/Sell
+    </v-card-title>
+    <v-card-text>
       <v-row>
         <v-col>
           <v-text-field
@@ -21,20 +24,20 @@
           />
         </v-col>
       </v-row>
-      <v-row>
-        <v-btn
-          :disabled="loading"
-          :loading="loading"
-          class="mr-4"
-          color="secondary"
-          @click="loader = 'loading'"
-        >
-          Place order
-        </v-btn>
-        <v-col/>
-      </v-row>
-    </v-container>
-  </v-form>
+    </v-card-text>
+
+    <v-card-actions>
+      <v-btn
+        :disabled="loading"
+        :loading="loading"
+        color="secondary"
+        @click="loader = 'loading'"
+      >
+        Place order
+      </v-btn>
+      <v-col />
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>

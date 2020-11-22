@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      Portfolio
+      Transactions
     </v-card-title>
     <v-card-text>
       <v-simple-table>
@@ -15,40 +15,41 @@
                 Shares
               </th>
               <th class="text-left">
-                Buy Price
+                Operation
               </th>
               <th class="text-left">
-                Market Price
+                Ask Price
               </th>
               <th class="text-left">
-                Cost
+                Final Price
               </th>
               <th class="text-left">
                 Total Value
               </th>
               <th class="text-left">
-                Gain
+                Status
               </th>
             </tr>
           </thead>
           <tbody>
             <tr
-              v-for="item in stocks"
-              :key="item.stock"
+              v-for="item in transactions"
+              :key="item.transaction"
             >
               <td>{{ item.stock }}</td>
               <td>{{ item.shares }}</td>
-              <td>{{ item.buyPrice }}</td>
-              <td>{{ item.marketPrice }}</td>
-              <td>{{ item.buyCost }}</td>
+              <td>{{ item.operation }}</td>
+              <td>{{ item.askPrice }}</td>
+              <td>{{ item.finalPrice }}</td>
               <td>{{ item.totalValue }}</td>
-              <td>{{ (item.totalValue - item.buyCost) / item.buyCost * 100 + '%' }}</td>
+              <td>{{ item.status }}</td>
             </tr>
           </tbody>
         </template>
       </v-simple-table>
     </v-card-text>
     <v-card-actions>
+      <v-spacer />
       <v-btn
         :disabled="loading"
         :loading="loading"
@@ -67,10 +68,10 @@ import {API} from '@aws-amplify/api'
 import * as queries from '../graphql/queries'
 
 export default {
-  name: 'Portfolio',
+  name: 'Transactions',
   data() {
     return {
-      stocks: [],
+      transactions: [],
       loader: null,
       loading: false,
     }
@@ -86,8 +87,8 @@ export default {
     },
   },
   created: async function () {
-    const res = await API.graphql({query: queries.getStocks})
-    this.stocks = res.data.getStocks
-  },
+    const res = await API.graphql({query: queries.getTransactions})
+    this.transactions = res.data.getTransactions
+  }
 }
 </script>

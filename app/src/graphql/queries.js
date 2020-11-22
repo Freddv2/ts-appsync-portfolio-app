@@ -14,3 +14,16 @@ export const getStocks = /* GraphQL */ `
     }
   }
 `;
+export const getTransactions = /* GraphQL */ `
+  query GetTransactions {
+    getTransactions {
+      stock
+      shares
+      operation
+      askPrice
+      finalPrice
+      totalValue
+      status
+    }
+  }
+`;

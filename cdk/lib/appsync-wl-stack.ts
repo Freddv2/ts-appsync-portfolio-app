@@ -11,6 +11,8 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
     const db = new DynamoDB(this, 'DynamoDB')
 
     const portfolioDS = api.addDynamoDbDataSource('portfolioTableDS', db.portfolioTable)
+    const transactionDS = api.addDynamoDbDataSource('transactionTableDS', db.transactionTable)
+
     portfolioDS.createResolver({
       typeName: 'Query',
       fieldName: 'getStocks',
@@ -18,5 +20,11 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
       responseMappingTemplate: MappingTemplate.dynamoDbResultList()
     })
 
+    transactionDS.createResolver({
+      typeName: 'Query',
+      fieldName: 'getTransactions',
+      requestMappingTemplate: MappingTemplate.dynamoDbScanTable(),
+      responseMappingTemplate: MappingTemplate.dynamoDbResultList()
+    })
   }
 }

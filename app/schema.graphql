@@ -8,8 +8,29 @@ type Stock {
     totalValue: Int!
 }
 
+type Transaction {
+    stock: String!
+    shares: Int!
+    operation: Operation!
+    askPrice: Int!
+    finalPrice: Int!
+    totalValue: Int!
+    status: Status!
+}
+
+enum Operation {
+    BUY
+    SELL
+}
+
+enum Status {
+    PENDING
+    COMPLETED
+}
+
 type Query {
     getStocks : [Stock!]!
+    getTransactions: [Transaction!]!
 }
 
 schema {
