@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <v-container
-        class="grey lighten-5"
-        fluid
+      class="grey lighten-5"
+      fluid
     >
       <Portfolio/>
       <PlaceOrder/>

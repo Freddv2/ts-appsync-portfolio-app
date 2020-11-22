@@ -28,8 +28,8 @@
       </thead>
       <tbody>
       <tr
-          v-for="item in stocks"
-          :key="item.stock"
+        v-for="item in stocks"
+        :key="item.stock"
       >
         <td>{{ item.stock }}</td>
         <td>{{ item.shares }}</td>
