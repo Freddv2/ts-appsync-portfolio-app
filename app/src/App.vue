@@ -1,19 +1,27 @@
 <template>
   <v-app>
-    <Portfolio></Portfolio>
+    <v-container
+        class="grey lighten-5"
+        fluid
+    >
+      <Portfolio/>
+      <PlaceOrder/>
+    </v-container>
   </v-app>
 </template>
 
 <script>
-import Portfolio from "@/components/Portfolio";
+import Portfolio from '@/components/Portfolio'
+import PlaceOrder from "@/components/PlaceOrder";
 
 export default {
   name: 'App',
   components: {
-    Portfolio
+    Portfolio,
+    PlaceOrder
   },
   data() {
     return {}
-  },
-};
+  }
+}
 </script>

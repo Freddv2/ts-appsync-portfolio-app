@@ -45,19 +45,19 @@
 </template>
 
 <script>
-import {API} from "@aws-amplify/api";
+import {API} from '@aws-amplify/api'
 import * as queries from '../graphql/queries'
 
 export default {
   name: 'Portfolio',
   data() {
     return {
-      stocks: [],
+      stocks: []
     }
   },
   created: async function () {
-    const res = await API.graphql({query: queries.getStocks});
-    this.stocks = res.data.getStocks;
+    const res = await API.graphql({query: queries.getStocks})
+    this.stocks = res.data.getStocks
   }
-};
+}
 </script>
