@@ -1,23 +1,17 @@
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-*.class
-### Gradle ###
-.gradle
+# GENERAL
 build
-out
+*.log
+#IDEA
+.idea
 
-### Java ###
+#JS
+*.js
+*.d.ts
+*.map
+!jest.config.js
+!webpack.config.js
+!decs.d.ts
+node_modules
 
-# Ignore Gradle GUI config
-gradle-app.setting
-
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
-
-# Cache of project
-.gradletasknamecache
-
-.env
+#CDK
+cdk.out
