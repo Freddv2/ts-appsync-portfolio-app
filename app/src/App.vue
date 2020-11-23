@@ -1,26 +1,32 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main
+      class="grey lighten-3"
+    >
       <v-responsive>
         <v-container
-          :aspect-ratio="16/9"
-          class="grey lighten-5"
           fluid
         >
           <v-row>
-            <v-col>
+            <v-spacer />
+            <v-col cols="8">
               <Portfolio />
             </v-col>
+            <v-spacer />
           </v-row>
           <v-row>
-            <v-col>
+            <v-spacer />
+            <v-col cols="8">
               <PlaceOrder />
             </v-col>
+            <v-spacer />
           </v-row>
           <v-row>
-            <v-col>
+            <v-spacer />
+            <v-col cols="8">
               <Transactions />
             </v-col>
+            <v-spacer />
           </v-row>
         </v-container>
       </v-responsive>
