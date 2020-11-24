@@ -19,8 +19,7 @@ export class DynamoDB extends Construct {
 
         this.transactionTable = new Table(this, 'TransactionTable', {
             tableName: 'TRANSACTION',
-            partitionKey: {name: 'portfolioId', type: AttributeType.STRING},
-            sortKey: {name: 'transactionId', type: AttributeType.STRING},
+            partitionKey: {name: 'id', type: AttributeType.STRING},
             readCapacity: 1,
             writeCapacity: 1
         });

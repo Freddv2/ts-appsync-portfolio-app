@@ -9,6 +9,7 @@ type Stock {
 }
 
 type Transaction {
+    id: String!
     stock: String!
     shares: Int!
     operation: Operation!
@@ -28,11 +29,34 @@ enum Status {
     COMPLETED
 }
 
+input PlaceOrderInput {
+    portfolioId: String!
+    stock: String!
+    shares: Int!
+    operation: Operation!
+    price: Int!
+}
+input ExecuteOrderInput {
+    transactionId: Int!
+    finalPrice: Int!
+}
 type Query {
     getStocks : [Stock!]!
     getTransactions: [Transaction!]!
 }
 
+type Mutation {
+    placeOrder(input: PlaceOrderInput!) : Transaction!
+    executeOrder(input: ExecuteOrderInput!) : Transaction!
+}
+
+directive @aws_subscribe(mutations: [String]) on FIELD_DEFINITION
+type Subscription {
+    onPlaceOrder: Transaction!
+    @aws_subscibe(mutations: ["placeOrder"])
+}
+
 schema {
     query: Query
+    mutation: Mutation
 }

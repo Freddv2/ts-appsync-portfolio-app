@@ -12,5 +12,9 @@
     "build": "yarn run clean && yarn run compile",
     "clean": "rimraf -rf ./dist",
     "compile": "tsc"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.798.0",
+    "ksuid": "^2.0.0"
   }
 }
