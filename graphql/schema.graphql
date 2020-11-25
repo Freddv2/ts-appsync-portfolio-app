@@ -36,10 +36,7 @@ input PlaceOrderInput {
     operation: Operation!
     price: Int!
 }
-input ExecuteOrderInput {
-    transactionId: Int!
-    finalPrice: Int!
-}
+
 type Query {
     getStocks : [Stock!]!
     getTransactions: [Transaction!]!
@@ -47,16 +44,16 @@ type Query {
 
 type Mutation {
     placeOrder(input: PlaceOrderInput!) : Transaction!
-    executeOrder(input: ExecuteOrderInput!) : Transaction!
+    processOrder(transactionId: String!) : Transaction!
 }
 
-directive @aws_subscribe(mutations: [String]) on FIELD_DEFINITION
 type Subscription {
     onPlaceOrder: Transaction!
-    @aws_subscibe(mutations: ["placeOrder"])
+    @aws_subscribe(mutations: ["placeOrder"])
 }
 
 schema {
     query: Query
     mutation: Mutation
+    subscription: Subscription
 }

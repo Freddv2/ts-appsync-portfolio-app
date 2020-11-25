@@ -65,12 +65,12 @@
 </template>
 
 <script>
-import {API} from '@aws-amplify/api'
-import * as queries from '../graphql/queries'
+import { API } from '@aws-amplify/api'
+import * as queries from '../../../graphql/queries'
 
 export default {
   name: 'Portfolio',
-  data() {
+  data () {
     return {
       stocks: [],
       loader: null,
