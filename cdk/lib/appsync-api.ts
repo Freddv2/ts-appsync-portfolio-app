@@ -11,7 +11,7 @@ export class AppSyncAPI extends Construct {
         // Creates the AppSync API
         this.api = new GraphqlApi(this, 'GraphQLAPI', {
             name: 'appsync-api',
-            schema: Schema.fromAsset('../app/schema.graphql'),
+            schema: Schema.fromAsset('../graphql/schema.graphql'),
             authorizationConfig: {
                 defaultAuthorization: {
                     authorizationType: AuthorizationType.API_KEY,

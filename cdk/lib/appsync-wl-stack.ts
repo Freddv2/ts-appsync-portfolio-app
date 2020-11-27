@@ -2,6 +2,7 @@ import * as cdk from '@aws-cdk/core';
 import {AppSyncAPI} from "./appsync-api";
 import {DynamoDB} from "./dynamodb";
 import {MappingTemplate} from "@aws-cdk/aws-appsync";
+import {Lambdas} from "./lambdas";
 
 export class AppSyncWorkingLunchStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -9,9 +10,12 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
 
     const api = new AppSyncAPI(this, 'AppSyncAPI').api
     const db = new DynamoDB(this, 'DynamoDB')
+    const lambdas = new Lambdas(this, 'Lambdas')
 
-    const portfolioDS = api.addDynamoDbDataSource('portfolioTableDS', db.portfolioTable)
-    const transactionDS = api.addDynamoDbDataSource('transactionTableDS', db.transactionTable)
+    const portfolioDS = api.addDynamoDbDataSource('PortfolioTableDS', db.portfolioTable)
+    const transactionDS = api.addDynamoDbDataSource('TransactionTableDS', db.transactionTable)
+    const placeOrderDS = api.addLambdaDataSource('PlaceOrderDS', lambdas.placeOrder)
+    //const processOrderDS = api.addLambdaDataSource('PlaceOrderDS', lambdas.processOrder)
 
     portfolioDS.createResolver({
       typeName: 'Query',
@@ -26,5 +30,14 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
       requestMappingTemplate: MappingTemplate.dynamoDbScanTable(),
       responseMappingTemplate: MappingTemplate.dynamoDbResultList()
     })
+
+    placeOrderDS.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'placeOrder'
+    })
+    // processOrderDS.createResolver({
+    //   typeName: 'Mutation',
+    //   fieldName: 'processOrder'
+    // })
   }
 }

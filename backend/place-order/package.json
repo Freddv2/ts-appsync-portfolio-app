@@ -9,9 +9,12 @@
     "dist"
   ],
   "scripts": {
-    "build": "yarn run clean && yarn run compile",
+    "build": "yarn run clean && yarn run compile && yarn run package",
+    "graphql": "graphql-codegen",
     "clean": "rimraf -rf ./dist",
-    "compile": "tsc"
+    "compile": "tsc",
+    "package": "webpack",
+    "graphql-codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "aws-appsync": "^4.0.1",
@@ -19,5 +22,13 @@
     "cross-fetch": "^3.0.6",
     "graphql-tag": "^2.11.0",
     "ksuid": "^2.0.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
+    "eslint": "^7.14.0",
+    "typescript": "^4.1.2",
+    "webpack": "^5.7.0",
+    "webpack-cli": "^4.2.0"
   }
 }

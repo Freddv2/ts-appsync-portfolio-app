@@ -1,4 +1,4 @@
-interface AppSyncEvent {
+export interface AppSyncEvent {
     info: {
         fieldName: string // graphql function name
     },
@@ -7,7 +7,7 @@ interface AppSyncEvent {
     }
 }
 
-interface PlaceOrderInput {
+export interface PlaceOrderInput {
     portfolioId: string
     stock: string
     shares: number
@@ -15,7 +15,7 @@ interface PlaceOrderInput {
     price: number
 }
 
-interface Transaction {
+export interface Transaction {
     id: string
     stock: string
     shares: number
@@ -26,10 +26,25 @@ interface Transaction {
     status: Status
 }
 
-enum Operation {
+export enum Operation {
     BUY, SELL
 }
 
-enum Status {
+export enum Status {
     PENDING, COMPLETED
 }
+
+export const processOrderMut = /* GraphQL */ `
+  mutation ProcessOrder($transactionId: String!) {
+    processOrder(transactionId: $transactionId) {
+      id
+      stock
+      shares
+      operation
+      askPrice
+      finalPrice
+      totalValue
+      status
+    }
+  }
+`;

@@ -2,7 +2,6 @@ import {Construct} from "@aws-cdk/core";
 import {AttributeType, Table} from "@aws-cdk/aws-dynamodb";
 
 export class DynamoDB extends Construct {
-
     readonly portfolioTable: Table
     readonly transactionTable: Table
 

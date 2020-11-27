@@ -9,11 +9,11 @@ export const dynamoDB = new DocumentClient({
 })
 
 export const graphQL = new AWSAppSyncClient({
-    url: 'APPSYNC_ENDPOINT_URL',
+    url: 'https://s6hn6j7lzjcwzdrsdpyhgds4au.appsync-api.ca-central-1.amazonaws.com/graphql',
     region: 'ca-central-1',
     auth: {
         type: 'API_KEY',
-        apiKey: 'da2-aofzxtxmmfe7phrvh4xccv5hs4'
+        apiKey: ' da2-uyrt4p3f6facja7j5sgjypm2ja'
     },
     disableOffline: true
 })

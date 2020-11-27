@@ -2,7 +2,8 @@ import KSUID from "ksuid"
 import {dynamoDB, graphQL} from "./client"
 import gql from 'graphql-tag'
 import 'cross-fetch/polyfill' //Required by the appsync client to emulate browser functionality
-import * as mutations from '../../../graphql/mutations'
+import {AppSyncEvent, processOrderMut, Status, Transaction} from "./entity"
+
 
 export const handler = async (event: AppSyncEvent): Promise<Transaction> => {
     const order = event.arguments.input
@@ -15,9 +16,10 @@ export const handler = async (event: AppSyncEvent): Promise<Transaction> => {
         askPrice: order.price,
         status: Status.PENDING
     }
+
     await dynamoDB.put({TableName: 'TRANSACTION', Item: transaction}).promise()
 
-    const mutation = gql(mutations.processOrder)
+    const mutation = gql(processOrderMut)
 
     graphQL.mutate({
         mutation,

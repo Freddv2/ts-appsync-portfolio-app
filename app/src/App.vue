@@ -36,8 +36,8 @@
 
 <script>
 import Portfolio from '@/components/Portfolio'
-import PlaceOrder from "@/components/PlaceOrder";
-import Transactions from "@/components/Transactions";
+import PlaceOrder from '@/components/PlaceOrder'
+import Transactions from '@/components/Transactions'
 
 export default {
   name: 'App',
@@ -46,7 +46,7 @@ export default {
     PlaceOrder,
     Transactions
   },
-  data() {
+  data () {
     return {}
   }
 }

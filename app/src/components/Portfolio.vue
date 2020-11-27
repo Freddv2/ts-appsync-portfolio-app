@@ -74,22 +74,22 @@ export default {
     return {
       stocks: [],
       loader: null,
-      loading: false,
+      loading: false
     }
   },
   watch: {
-    loader() {
+    loader () {
       const l = this.loader
       this[l] = !this[l]
 
       setTimeout(() => (this[l] = false), 3000)
 
       this.loader = null
-    },
+    }
   },
   created: async function () {
-    const res = await API.graphql({query: queries.getStocks})
+    const res = await API.graphql({ query: queries.getStocks })
     this.stocks = res.data.getStocks
-  },
+  }
 }
 </script>

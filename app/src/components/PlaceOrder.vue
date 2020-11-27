@@ -29,12 +29,21 @@
     <v-card-actions>
       <v-col class="text-right">
         <v-btn
-          :disabled="loading"
-          :loading="loading"
+          :disabled="buyLoading"
+          :loading="buyLoading"
+          class="ma-2"
           color="secondary"
-          @click="loader = 'loading'"
+          @click="buy"
         >
-          Place order
+          Buy
+        </v-btn>
+        <v-btn
+          :disabled="sellLoading"
+          :loading="sellLoading"
+          color="secondary"
+          @click="sell"
+        >
+          Sell
         </v-btn>
       </v-col>
     </v-card-actions>
@@ -44,25 +53,47 @@
 <script>
 export default {
   name: 'PlaceOrder',
-  data() {
+  data () {
     return {
       stock: '',
       shares: 0,
       pricePerShare: 0,
-      loader: null,
-      loading: false,
+      buyLoader: null,
+      sellLoader: null,
+      buyLoading: false,
+      sellLoading: false
     }
   },
-  watch: {
-    loader() {
-      const l = this.loader
-      this[l] = !this[l]
-
-      setTimeout(() => (this[l] = false), 3000)
-
-      this.loader = null
+  methods: {
+    buy () {
+      this.initBuyButtonLoading()
+      setTimeout(() => {
+        this.resetLoadingButtons()
+      }, 3000)
     },
-  },
+    sell () {
+      this.initSellLoadingButton()
+      setTimeout(() => {
+        this.resetLoadingButtons()
+      }, 3000)
+    },
+    initBuyButtonLoading () {
+      this.buyLoader = 'buyLoading'
+      const l = this.buyLoader
+      this[l] = !this[l]
+    },
+    initSellLoadingButton () {
+      this.sellLoader = 'sellLoading'
+      const l = this.sellLoader
+      this[l] = !this[l]
+    },
+    resetLoadingButtons () {
+      this.buyLoader = null
+      this.sellLoader = null
+      this.buyLoading = false
+      this.sellLoading = false
+    }
+  }
 }
 </script>
 

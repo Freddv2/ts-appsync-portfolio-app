@@ -64,30 +64,30 @@
 </template>
 
 <script>
-import {API} from '@aws-amplify/api'
-import * as queries from '../graphql/queries'
+import { API } from '@aws-amplify/api'
+import * as queries from '../../../graphql/queries'
 
 export default {
   name: 'Transactions',
-  data() {
+  data () {
     return {
       transactions: [],
       loader: null,
-      loading: false,
+      loading: false
     }
   },
   watch: {
-    loader() {
+    loader () {
       const l = this.loader
       this[l] = !this[l]
 
       setTimeout(() => (this[l] = false), 3000)
 
       this.loader = null
-    },
+    }
   },
   created: async function () {
-    const res = await API.graphql({query: queries.getTransactions})
+    const res = await API.graphql({ query: queries.getTransactions })
     this.transactions = res.data.getTransactions
   }
 }

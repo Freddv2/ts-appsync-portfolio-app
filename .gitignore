@@ -12,6 +12,8 @@ build
 !webpack.config.js
 !decs.d.ts
 node_modules
+dist
+bundle
 
 #CDK
 cdk.out

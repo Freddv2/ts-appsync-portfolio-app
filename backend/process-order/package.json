@@ -1,7 +1,14 @@
 {
   "name": "process-order",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "aws-sdk": "^2.799.0"
+  }
 }
