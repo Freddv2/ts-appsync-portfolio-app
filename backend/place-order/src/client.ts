@@ -1,6 +1,5 @@
 import {DocumentClient} from "aws-sdk/clients/dynamodb";
 import {EnvironmentCredentials} from "aws-sdk";
-import AWSAppSyncClient from "aws-appsync";
 
 export const dynamoDB = new DocumentClient({
     endpointDiscoveryEnabled: false,
@@ -8,13 +7,13 @@ export const dynamoDB = new DocumentClient({
     endpoint: 'http://dynamodb.ca-central-1.amazonaws.com',
 })
 
-export const graphQL = new AWSAppSyncClient({
-    url: 'https://s6hn6j7lzjcwzdrsdpyhgds4au.appsync-api.ca-central-1.amazonaws.com/graphql',
+/*export const graphQL = new AWSAppSyncClient({
+    url: 'https://by574664g5gk3p572s4laysjgm.appsync-api.ca-central-1.amazonaws.com/graphql',
     region: 'ca-central-1',
     auth: {
         type: 'API_KEY',
-        apiKey: ' da2-uyrt4p3f6facja7j5sgjypm2ja'
+        apiKey: 'da2-l4mudizo5vbvnpmg4lk7ujnsea'
     },
     disableOffline: true
-})
+)*/
 

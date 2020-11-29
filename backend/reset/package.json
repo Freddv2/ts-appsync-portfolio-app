@@ -1,5 +1,5 @@
 {
-  "name": "place-order",
+  "name": "reset",
   "version": "1.0.0",
   "license": "MIT",
   "private": true,
@@ -16,11 +16,7 @@
     "package": "rimraf -rf ./bundle && webpack"
   },
   "dependencies": {
-    "aws-appsync": "^4.0.1",
     "aws-sdk": "^2.798.0",
-    "cross-fetch": "^3.0.6",
-    "graphql-tag": "^2.11.0",
-    "ksuid": "^2.0.0",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {

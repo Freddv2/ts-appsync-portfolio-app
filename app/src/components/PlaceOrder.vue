@@ -51,13 +51,16 @@
 </template>
 
 <script>
+import { API } from '@aws-amplify/api'
+import * as mutations from '../../../graphql/mutations'
+
 export default {
   name: 'PlaceOrder',
   data () {
     return {
       stock: '',
-      shares: 0,
-      pricePerShare: 0,
+      shares: null,
+      pricePerShare: null,
       buyLoader: null,
       sellLoader: null,
       buyLoading: false,
@@ -65,17 +68,35 @@ export default {
     }
   },
   methods: {
-    buy () {
-      this.initBuyButtonLoading()
-      setTimeout(() => {
+    async buy () {
+      try {
+        this.initBuyButtonLoading()
+        await this.placeOrder(true)
+      } catch (e) {
+        console.error(e)
+      } finally {
         this.resetLoadingButtons()
-      }, 3000)
+      }
     },
-    sell () {
+    async sell () {
       this.initSellLoadingButton()
-      setTimeout(() => {
-        this.resetLoadingButtons()
-      }, 3000)
+      await this.placeOrder(true)
+      this.resetLoadingButtons()
+    },
+    async placeOrder (buy) {
+      const res = await API.graphql({
+        query: mutations.placeOrder,
+        variables: {
+          input: {
+            stock: this.stock,
+            shares: this.shares,
+            operation: buy ? 'BUY' : 'SELL',
+            price: this.pricePerShare
+          }
+        }
+      })
+      console.log(res.data.placeOrder)
+      this.$root.$emit('new-transaction', res.data.placeOrder)
     },
     initBuyButtonLoading () {
       this.buyLoader = 'buyLoading'

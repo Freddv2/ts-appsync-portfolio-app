@@ -6,10 +6,10 @@ import Amplify from '@aws-amplify/core'
 Vue.config.productionTip = false
 
 const appSyncConfig = {
-  aws_appsync_graphqlEndpoint: 'https://s6hn6j7lzjcwzdrsdpyhgds4au.appsync-api.ca-central-1.amazonaws.com/graphql',
+  aws_appsync_graphqlEndpoint: 'https://by574664g5gk3p572s4laysjgm.appsync-api.ca-central-1.amazonaws.com/graphql',
   aws_appsync_region: 'ca-central-1',
   aws_appsync_authenticationType: 'API_KEY',
-  aws_appsync_apiKey: ' da2-uyrt4p3f6facja7j5sgjypm2ja'
+  aws_appsync_apiKey: 'da2-l4mudizo5vbvnpmg4lk7ujnsea'
 }
 
 Amplify.configure(appSyncConfig)

@@ -39,5 +39,13 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
     //   typeName: 'Mutation',
     //   fieldName: 'processOrder'
     // })
+
+
+    db.transactionTable.grantFullAccess(lambdas.placeOrder)
+    // db.transactionTable.grantFullAccess(lambdas.processOrder)
+    // db.portfolioTable.grantFullAccess(lambdas.processOrder)
+    db.portfolioTable.grantFullAccess(lambdas.reset)
+    db.transactionTable.grantFullAccess(lambdas.reset)
+
   }
 }

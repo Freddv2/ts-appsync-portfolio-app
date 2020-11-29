@@ -8,7 +8,6 @@ export interface AppSyncEvent {
 }
 
 export interface PlaceOrderInput {
-    portfolioId: string
     stock: string
     shares: number
     operation: Operation
@@ -17,21 +16,22 @@ export interface PlaceOrderInput {
 
 export interface Transaction {
     id: string
+    date: string
     stock: string
     shares: number
     operation: Operation
     askPrice: number
-    finalPrice?: number
-    totalValue?: number
     status: Status
 }
 
 export enum Operation {
-    BUY, SELL
+    BUY = "BUY",
+    SELL = "SELL"
 }
 
 export enum Status {
-    PENDING, COMPLETED
+    PENDING = "PENDING",
+    COMPLETED = "COMPLETED"
 }
 
 export const processOrderMut = /* GraphQL */ `

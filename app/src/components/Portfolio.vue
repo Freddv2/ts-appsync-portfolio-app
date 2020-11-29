@@ -53,9 +53,8 @@
         <v-btn
           :disabled="loading"
           :loading="loading"
-          :right="true"
           color="secondary"
-          @click="loader = 'loading'"
+          @click="reset"
         >
           Reset
         </v-btn>
@@ -67,6 +66,7 @@
 <script>
 import { API } from '@aws-amplify/api'
 import * as queries from '../../../graphql/queries'
+import * as mutations from '../../../graphql/mutations'
 
 export default {
   name: 'Portfolio',
@@ -77,13 +77,16 @@ export default {
       loading: false
     }
   },
-  watch: {
-    loader () {
+  methods: {
+    async reset () {
       const l = this.loader
       this[l] = !this[l]
-
-      setTimeout(() => (this[l] = false), 3000)
-
+      await API.graphql({
+        query: mutations.reset,
+        variables: {
+          table: 'PORTFOLIO'
+        }
+      })
       this.loader = null
     }
   },

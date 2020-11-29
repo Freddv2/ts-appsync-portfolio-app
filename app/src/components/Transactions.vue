@@ -9,13 +9,16 @@
           <thead>
             <tr>
               <th class="text-left">
+                Date
+              </th>
+              <th class="text-left">
                 Stock
               </th>
               <th class="text-left">
-                Shares
+                Operation
               </th>
               <th class="text-left">
-                Operation
+                Shares
               </th>
               <th class="text-left">
                 Ask Price
@@ -36,9 +39,10 @@
               v-for="item in transactions"
               :key="item.transaction"
             >
+              <td>{{ item.date }}</td>
               <td>{{ item.stock }}</td>
-              <td>{{ item.shares }}</td>
               <td>{{ item.operation }}</td>
+              <td>{{ item.shares }}</td>
               <td>{{ item.askPrice }}</td>
               <td>{{ item.finalPrice }}</td>
               <td>{{ item.totalValue }}</td>
@@ -54,7 +58,7 @@
           :disabled="loading"
           :loading="loading"
           color="secondary"
-          @click="loader = 'loading'"
+          @click="reset"
         >
           Reset
         </v-btn>
@@ -66,6 +70,7 @@
 <script>
 import { API } from '@aws-amplify/api'
 import * as queries from '../../../graphql/queries'
+import * as mutations from '../../../graphql/mutations'
 
 export default {
   name: 'Transactions',
@@ -76,19 +81,28 @@ export default {
       loading: false
     }
   },
-  watch: {
-    loader () {
+  methods: {
+    async reset () {
       const l = this.loader
       this[l] = !this[l]
-
-      setTimeout(() => (this[l] = false), 3000)
-
+      await API.graphql({
+        query: mutations.reset,
+        variables: {
+          table: 'TRANSACTION'
+        }
+      })
       this.loader = null
     }
   },
   created: async function () {
     const res = await API.graphql({ query: queries.getTransactions })
     this.transactions = res.data.getTransactions
+  },
+  mounted () {
+    this.$root.$on('new-transaction', (transaction) => {
+      console.log(transaction)
+      this.transactions.push(...transaction)
+    })
   }
 }
 </script>
