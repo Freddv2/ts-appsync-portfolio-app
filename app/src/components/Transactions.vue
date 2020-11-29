@@ -83,6 +83,7 @@ export default {
   },
   methods: {
     async reset () {
+      this.loader = 'loading'
       const l = this.loader
       this[l] = !this[l]
       await API.graphql({
@@ -91,7 +92,9 @@ export default {
           table: 'TRANSACTION'
         }
       })
+      this.transactions = []
       this.loader = null
+      this.loading = false
     }
   },
   created: async function () {
@@ -101,7 +104,7 @@ export default {
   mounted () {
     this.$root.$on('new-transaction', (transaction) => {
       console.log(transaction)
-      this.transactions.push(...transaction)
+      this.transactions.push(transaction)
     })
   }
 }

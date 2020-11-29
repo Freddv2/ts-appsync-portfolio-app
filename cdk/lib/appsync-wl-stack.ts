@@ -16,6 +16,7 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
     const transactionDS = api.addDynamoDbDataSource('TransactionTableDS', db.transactionTable)
     const placeOrderDS = api.addLambdaDataSource('PlaceOrderDS', lambdas.placeOrder)
     //const processOrderDS = api.addLambdaDataSource('PlaceOrderDS', lambdas.processOrder)
+    const resetDS = api.addLambdaDataSource('ResetDS', lambdas.reset)
 
     portfolioDS.createResolver({
       typeName: 'Query',
@@ -39,7 +40,10 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
     //   typeName: 'Mutation',
     //   fieldName: 'processOrder'
     // })
-
+    resetDS.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'reset'
+    })
 
     db.transactionTable.grantFullAccess(lambdas.placeOrder)
     // db.transactionTable.grantFullAccess(lambdas.processOrder)

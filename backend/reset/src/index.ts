@@ -11,12 +11,16 @@ export const handler = async (event: AppSyncEvent): Promise<Boolean> => {
     } else if (table === 'PORTFOLIO') {
         await deleteTable(table)
         await createPortfolioTable()
+    } else {
+        console.error(`Bad table name : ${table}`)
     }
     return true
 }
 
 async function createTransactionTable() {
-    return dynamoDB.createTable({
+    console.log('Creating transaction table...')
+
+    await dynamoDB.createTable({
         TableName: 'TRANSACTION',
         KeySchema: [
             {'AttributeName': 'id', KeyType: 'HASH'},
@@ -31,10 +35,14 @@ async function createTransactionTable() {
             WriteCapacityUnits: 1
         }
     }).promise()
+
+    console.log('Transaction table deleted')
 }
 
 async function createPortfolioTable() {
-    return dynamoDB.createTable({
+    console.log('Deleting Portfolio table...')
+
+    await dynamoDB.createTable({
         TableName: 'TRANSACTION',
         KeySchema: [
             {'AttributeName': 'portfolioId', KeyType: 'HASH'},
@@ -49,10 +57,16 @@ async function createPortfolioTable() {
             WriteCapacityUnits: 1
         }
     }).promise()
+
+    console.log('Portfolio table created')
 }
 
 async function deleteTable(table: Table) {
-    return dynamoDB.deleteTable({
+    console.log(`Deleting ${table} table...`)
+
+    await dynamoDB.deleteTable({
         TableName: table
     }).promise()
+
+    console.log(`${table} table deleted...`)
 }

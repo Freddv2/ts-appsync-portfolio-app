@@ -34,10 +34,11 @@ export enum Status {
     COMPLETED = "COMPLETED"
 }
 
-export const processOrderMut = /* GraphQL */ `
+export const processOrder = /* GraphQL */ `
   mutation ProcessOrder($transactionId: String!) {
     processOrder(transactionId: $transactionId) {
       id
+      date
       stock
       shares
       operation

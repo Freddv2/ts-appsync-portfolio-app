@@ -1,9 +1,10 @@
 import 'source-map-support/register'
 import KSUID from "ksuid"
-import {dynamoDB} from "./client"
-import 'cross-fetch/polyfill' //Required by the appsync client to emulate browser functionality
-import {AppSyncEvent, Status, Transaction} from "./entity"
-
+import {appSync, dynamoDB} from "./client"
+import 'isomorphic-fetch'
+import "es6-promise/auto"
+import {AppSyncEvent, processOrderMut, Status, Transaction} from "./entity"
+import gql from 'graphql-tag'
 
 export const handler = async (event: AppSyncEvent): Promise<Transaction> => {
     const order = event.arguments.input
@@ -20,13 +21,12 @@ export const handler = async (event: AppSyncEvent): Promise<Transaction> => {
     }
     await dynamoDB.put({TableName: 'TRANSACTION', Item: transaction}).promise()
 
-    // const mutation = gql(processOrderMut)
-    //
-    // graphQL.mutate({
-    //     mutation,
-    //     variables: transactionId.string,
-    //     fetchPolicy: "network-only"
-    // })
+    const mutation = gql(processOrderMut)
+    const appSyncHydrated = await appSync.hydrated();
+    appSyncHydrated.mutate({
+        mutation,
+        variables: id.string,
+    })
 
     return transaction
 }

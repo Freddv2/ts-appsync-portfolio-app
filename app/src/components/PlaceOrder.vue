@@ -95,7 +95,6 @@ export default {
           }
         }
       })
-      console.log(res.data.placeOrder)
       this.$root.$emit('new-transaction', res.data.placeOrder)
     },
     initBuyButtonLoading () {
