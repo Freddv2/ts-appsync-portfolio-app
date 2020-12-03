@@ -5,7 +5,7 @@
     </v-card-title>
     <v-card-text>
       <v-simple-table>
-        <template v-slot:default>
+        <template #default>
           <thead>
             <tr>
               <th class="text-left">
@@ -41,7 +41,7 @@
             >
               <td>{{ item.date }}</td>
               <td>{{ item.stock }}</td>
-              <td>{{ item.operation }}</td>
+              <td>{{ item.action }}</td>
               <td>{{ item.shares }}</td>
               <td>{{ item.askPrice }}</td>
               <td>{{ item.finalPrice }}</td>
@@ -71,6 +71,7 @@
 import { API } from '@aws-amplify/api'
 import * as queries from '../../../graphql/queries'
 import * as mutations from '../../../graphql/mutations'
+import * as subscriptions from '../../../graphql/subscriptions'
 
 export default {
   name: 'Transactions',
@@ -80,6 +81,17 @@ export default {
       loader: null,
       loading: false
     }
+  },
+  created: function () {
+    this.subscribeToOrderExecuted()
+  },
+  mounted: async function () {
+    const res = await API.graphql({ query: queries.getTransactions })
+    this.transactions = res.data.getTransactions
+    this.$root.$on('new-transaction', (transaction) => {
+      console.log(transaction)
+      this.transactions.push(transaction)
+    })
   },
   methods: {
     async reset () {
@@ -95,17 +107,15 @@ export default {
       this.transactions = []
       this.loader = null
       this.loading = false
+    },
+    subscribeToOrderExecuted () {
+      API.graphql({ query: subscriptions.onOrderExecuted })
+        .subscribe({
+          next: (eventData) => {
+            console.log(eventData)
+          }
+        })
     }
-  },
-  created: async function () {
-    const res = await API.graphql({ query: queries.getTransactions })
-    this.transactions = res.data.getTransactions
-  },
-  mounted () {
-    this.$root.$on('new-transaction', (transaction) => {
-      console.log(transaction)
-      this.transactions.push(transaction)
-    })
   }
 }
 </script>

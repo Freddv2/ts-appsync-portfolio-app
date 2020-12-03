@@ -3,6 +3,8 @@ import {AppSyncAPI} from "./appsync-api";
 import {DynamoDB} from "./dynamodb";
 import {MappingTemplate} from "@aws-cdk/aws-appsync";
 import {Lambdas} from "./lambdas";
+import {DynamoEventSource} from "@aws-cdk/aws-lambda-event-sources";
+import {StartingPosition} from "@aws-cdk/aws-lambda";
 
 export class AppSyncWorkingLunchStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -12,13 +14,18 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
     const db = new DynamoDB(this, 'DynamoDB')
     const lambdas = new Lambdas(this, 'Lambdas')
 
-    const portfolioDS = api.addDynamoDbDataSource('PortfolioTableDS', db.portfolioTable)
+    //Process Order is triggered when a transaction created. Actually, the stream output all modification to the table and we'll have to keep only the 'INSERT'
+    lambdas.processOrder.addEventSource(new DynamoEventSource(db.transactionTable, {
+      startingPosition: StartingPosition.TRIM_HORIZON
+    }))
+
+    const stockDS = api.addDynamoDbDataSource('PortfolioTableDS', db.stockTable)
     const transactionDS = api.addDynamoDbDataSource('TransactionTableDS', db.transactionTable)
     const placeOrderDS = api.addLambdaDataSource('PlaceOrderDS', lambdas.placeOrder)
-    //const processOrderDS = api.addLambdaDataSource('PlaceOrderDS', lambdas.processOrder)
+    const publishOrderExecutedDS = api.addNoneDataSource('PublishOrderExecutedDS') // No DS. This mutation we'll only be used to notify subscription
     const resetDS = api.addLambdaDataSource('ResetDS', lambdas.reset)
 
-    portfolioDS.createResolver({
+    stockDS.createResolver({
       typeName: 'Query',
       fieldName: 'getStocks',
       requestMappingTemplate: MappingTemplate.dynamoDbScanTable(),
@@ -36,19 +43,24 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
       typeName: 'Mutation',
       fieldName: 'placeOrder'
     })
-    // processOrderDS.createResolver({
-    //   typeName: 'Mutation',
-    //   fieldName: 'processOrder'
-    // })
+    publishOrderExecutedDS.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'publishOrderExecuted',
+      requestMappingTemplate: MappingTemplate.lambdaRequest(),
+      responseMappingTemplate: MappingTemplate.lambdaResult()
+    })
     resetDS.createResolver({
       typeName: 'Mutation',
       fieldName: 'reset'
     })
 
+    //Process order lambda will do mutation to notify subscribers of order processed
+    api.grantMutation(lambdas.processOrder)
+
     db.transactionTable.grantFullAccess(lambdas.placeOrder)
-    // db.transactionTable.grantFullAccess(lambdas.processOrder)
-    // db.portfolioTable.grantFullAccess(lambdas.processOrder)
-    db.portfolioTable.grantFullAccess(lambdas.reset)
+    db.transactionTable.grantFullAccess(lambdas.processOrder)
+    db.stockTable.grantFullAccess(lambdas.processOrder)
+    db.stockTable.grantFullAccess(lambdas.reset)
     db.transactionTable.grantFullAccess(lambdas.reset)
 
   }

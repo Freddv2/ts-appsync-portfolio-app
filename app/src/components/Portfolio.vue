@@ -5,7 +5,7 @@
     </v-card-title>
     <v-card-text>
       <v-simple-table>
-        <template v-slot:default>
+        <template #default>
           <thead>
             <tr>
               <th class="text-left">
@@ -77,6 +77,10 @@ export default {
       loading: false
     }
   },
+  created: async function () {
+    const res = await API.graphql({ query: queries.getStocks })
+    this.stocks = res.data.getStocks
+  },
   methods: {
     async reset () {
       const l = this.loader
@@ -84,15 +88,11 @@ export default {
       await API.graphql({
         query: mutations.reset,
         variables: {
-          table: 'PORTFOLIO'
+          table: 'STOCK'
         }
       })
       this.loader = null
     }
-  },
-  created: async function () {
-    const res = await API.graphql({ query: queries.getStocks })
-    this.stocks = res.data.getStocks
   }
 }
 </script>

@@ -58,6 +58,7 @@ export default {
   name: 'PlaceOrder',
   data () {
     return {
+      portfolioId: 'Fred Portfolio',
       stock: '',
       shares: null,
       pricePerShare: null,
@@ -88,9 +89,10 @@ export default {
         query: mutations.placeOrder,
         variables: {
           input: {
+            portfolioId: this.portfolioId,
             stock: this.stock,
             shares: this.shares,
-            operation: buy ? 'BUY' : 'SELL',
+            action: buy ? 'BUY' : 'SELL',
             price: this.pricePerShare
           }
         }

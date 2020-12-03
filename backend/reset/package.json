@@ -10,7 +10,6 @@
   ],
   "scripts": {
     "build": "yarn run clean && yarn run compile && yarn run package",
-    "graphql": "graphql-codegen",
     "clean": "rimraf -rf ./dist",
     "compile": "tsc",
     "package": "rimraf -rf ./bundle && webpack"

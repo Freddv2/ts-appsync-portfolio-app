@@ -18,11 +18,16 @@ export class Lambdas extends Construct {
                 NODE_OPTIONS: '--enable-source-maps'
             }
         })
-        // this.processOrder = new Function(this, 'ProcessOrderLambda', {
-        //     runtime: Runtime.NODEJS_12_X,
-        //     handler: 'bundle.handler',
-        //     code: Code.fromAsset('../backend/place-order/bundle')
-        // })
+        this.processOrder = new Function(this, 'ProcessOrderLambda', {
+            runtime: Runtime.NODEJS_12_X,
+            handler: 'bundle.handler',
+            memorySize: 1024,
+            timeout: Duration.seconds(30), //Longer because we sleep randomly to simulate a time to do the transaction
+            code: Code.fromAsset('../backend/process-order/bundle'),
+            environment: {
+                NODE_OPTIONS: '--enable-source-maps'
+            }
+        })
 
         this.reset = new Function(this, 'ResetLambda', {
             runtime: Runtime.NODEJS_12_X,

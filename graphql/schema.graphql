@@ -1,4 +1,5 @@
 type Stock {
+    portfolioId: String!
     stock: String!
     shares: Int!
     buyPrice: Int!
@@ -8,11 +9,12 @@ type Stock {
 }
 
 type Transaction {
-    id: String!
+    portfolioId: String!
+    transactionId: String!
     date: String!
     stock: String!
     shares: Int!
-    operation: Operation!
+    action: Operation!
     askPrice: Int!
     finalPrice: Int
     totalValue: Int
@@ -29,27 +31,40 @@ enum Status {
     COMPLETED
 }
 
-input PlaceOrderInput {
+input TransactionCompletedInput {
+    portfolioId: String!
+    transactionId: String!
     stock: String!
     shares: Int!
-    operation: Operation!
+    action: Operation!
+    askPrice: Int!
+    finalPrice: Int
+    totalValue: Int
+    status: Status!
+}
+
+input PlaceOrderInput {
+    portfolioId: String!
+    stock: String!
+    shares: Int!
+    action: Operation!
     price: Int!
 }
 
 type Query {
-    getStocks : [Stock!]!
+    getStocks: [Stock!]!
     getTransactions: [Transaction!]!
 }
 
 type Mutation {
     placeOrder(input: PlaceOrderInput!) : Transaction!
-    processOrder(transactionId: String!) : Transaction!
+    publishOrderExecuted(transaction: TransactionCompletedInput!) : Transaction!
     reset(table: String!) : Boolean
 }
 
 type Subscription {
-    onProcessOrder: Transaction!
-    @aws_subscribe(mutations: ["processOrder"])
+    onOrderExecuted: Transaction!
+    @aws_subscribe(mutations: ["publishOrderExecuted"])
 }
 
 schema {

@@ -1,9 +1,119 @@
-import {dynamoDB} from "./client";
+import 'source-map-support/register'
+import {publishOrderExecutedMut, Status, Stock, Transaction} from './entity'
+import {appSync, dynamoDB} from "./client";
+import {DynamoDBStreamEvent} from "aws-lambda";
+import {Converter} from "aws-sdk/clients/dynamodb";
+import gql from 'graphql-tag';
 
-export const handler = async (event: AppSyncEvent): Promise<Transaction> => {
-    const result = await dynamoDB.get({
-        TableName: 'TRANSACTION',
-        Key: {'transactionId': {S: event.arguments.transactionId}}
+export const handler = async (event: DynamoDBStreamEvent): Promise<void> => {
+    for (const record of event.Records) {
+        if (record.eventName === 'INSERT') {
+            const item = record.dynamodb?.NewImage
+            if (item) {
+                const transaction = Converter.unmarshall(item) as Transaction;
+                await sleepRandomly()
+                const completedTransaction = await processOrder(transaction)
+                await publishOrderExecuted(completedTransaction)
+            }
+        }
+    }
+    return Promise.resolve()
+}
+
+function sleepRandomly() {
+    const sleepTime = Math.floor(Math.random() * 10000) + 2000 // Sleep for 2 sec + 0 to 10 seconds
+    return new Promise(resolve => setTimeout(resolve, sleepTime))
+}
+
+async function processOrder(transaction: Transaction) {
+    const completedTransaction = await completeTransaction(transaction);
+    await updatePortfolio(completedTransaction)
+    return completedTransaction
+}
+
+async function completeTransaction(transaction: Transaction) {
+    const randomPriceAdjustment = calculateBetween0to10PercentOfAskPrice(transaction.askPrice)
+    transaction.finalPrice = transaction.action === 'BUY' ? transaction.askPrice - randomPriceAdjustment : transaction.askPrice + randomPriceAdjustment
+    transaction.totalValue = transaction.finalPrice * transaction.shares
+    transaction.status = Status.COMPLETED
+
+    await dynamoDB.put({TableName: 'TRANSACTION', Item: transaction}).promise()
+
+    return transaction
+}
+
+async function updatePortfolio(transaction: Transaction) {
+    if (transaction.action === 'BUY') {
+        await addToPortfolio(transaction)
+    } else {
+        await removeFromPortfolio(transaction)
+    }
+}
+
+async function addToPortfolio(transaction: Transaction) {
+    let stock = await findStock(transaction.portfolioId, transaction.stock)
+    if (stock) {
+        stock.shares = stock.shares + transaction.shares
+        stock.totalValue = stock.totalValue + transaction.totalValue
+    } else {
+        stock = {
+            portfolioId: transaction.portfolioId,
+            stock: transaction.stock,
+            shares: transaction.shares,
+            buyPrice: transaction.finalPrice,
+            buyCost: transaction.totalValue,
+            marketPrice: transaction.finalPrice,
+            totalValue: transaction.totalValue
+        }
+    }
+    await dynamoDB.put({TableName: 'STOCK', Item: stock}).promise()
+}
+
+async function removeFromPortfolio(transaction: Transaction) {
+    const stock = await findStock(transaction.portfolioId, transaction.stock)
+    if (stock) {
+        if (stock.shares === transaction.shares) {
+            await dynamoDB.delete({
+                TableName: 'STOCK',
+                Key: {
+                    'portfolioId': stock.portfolioId,
+                    'stock': stock.stock
+                }
+            }).promise()
+        } else {
+            stock.shares = stock.shares - transaction.shares
+            stock.totalValue = stock.totalValue - transaction.totalValue
+            await dynamoDB.put({
+                TableName: 'STOCK',
+                Item: stock
+            }).promise()
+        }
+    }
+}
+
+async function findStock(portfolioId: string, stock: string) {
+    const res = await dynamoDB.get({
+        TableName: 'STOCK',
+        Key: {
+            'portfolioId': portfolioId,
+            'stock': stock
+        }
     }).promise()
-    return result.Item as Transaction
+    return res.Item as Stock | undefined
+}
+
+function calculateBetween0to10PercentOfAskPrice(askPrice: number) {
+    const tenPercent = askPrice * 0.1
+    return Math.floor(Math.random() * tenPercent)
+}
+
+async function publishOrderExecuted(completedTransaction: Transaction) {
+    const appSyncHydrated = await appSync.hydrated();
+    const mutation = gql(publishOrderExecutedMut)
+    console.log(`${JSON.stringify(mutation)}`)
+    await appSyncHydrated.mutate({
+        mutation,
+        variables: {completedTransaction}
+    });
+    console.log('Mutation completed')
 }

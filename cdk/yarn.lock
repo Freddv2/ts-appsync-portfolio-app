@@ -22,6 +22,25 @@
     "@aws-cdk/cx-api" "1.75.0"
     constructs "^3.2.0"
 
+"@aws-cdk/aws-apigateway@1.75.0":
+  version "1.75.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-apigateway/-/aws-apigateway-1.75.0.tgz#385bebeb2dbb995a22c35715c2f95e033cabbe5d"
+  integrity sha512-GWi+/AoSnIcwpKrsz4+l1gEnn2Kdsf1hsPAU8YYXDkATH/5YdGdioGIWJnq+Gop/JiQigvEJlB8sNwwaQn8sOQ==
+  dependencies:
+    "@aws-cdk/assets" "1.75.0"
+    "@aws-cdk/aws-certificatemanager" "1.75.0"
+    "@aws-cdk/aws-cloudwatch" "1.75.0"
+    "@aws-cdk/aws-ec2" "1.75.0"
+    "@aws-cdk/aws-elasticloadbalancingv2" "1.75.0"
+    "@aws-cdk/aws-iam" "1.75.0"
+    "@aws-cdk/aws-lambda" "1.75.0"
+    "@aws-cdk/aws-logs" "1.75.0"
+    "@aws-cdk/aws-s3" "1.75.0"
+    "@aws-cdk/aws-s3-assets" "1.75.0"
+    "@aws-cdk/core" "1.75.0"
+    "@aws-cdk/cx-api" "1.75.0"
+    constructs "^3.2.0"
+
 "@aws-cdk/aws-applicationautoscaling@1.75.0":
   version "1.75.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-applicationautoscaling/-/aws-applicationautoscaling-1.75.0.tgz#ad212901c0ea62a7706b1d7e6d5d8baf2d69e928"
@@ -157,6 +176,23 @@
     "@aws-cdk/cx-api" "1.75.0"
     constructs "^3.2.0"
 
+"@aws-cdk/aws-elasticloadbalancingv2@1.75.0":
+  version "1.75.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-elasticloadbalancingv2/-/aws-elasticloadbalancingv2-1.75.0.tgz#c3f09bd12ac4c4883d0be2e2ad4bd1f486c7c916"
+  integrity sha512-rQiM1HXY8eg/XXvCMPKnilSprTJOG+/irJASaVBL1eiNNrb91pMOAfIp/u7gBDlpCbCICCA4f5G6yOF5vcYSlg==
+  dependencies:
+    "@aws-cdk/aws-certificatemanager" "1.75.0"
+    "@aws-cdk/aws-cloudwatch" "1.75.0"
+    "@aws-cdk/aws-ec2" "1.75.0"
+    "@aws-cdk/aws-iam" "1.75.0"
+    "@aws-cdk/aws-lambda" "1.75.0"
+    "@aws-cdk/aws-s3" "1.75.0"
+    "@aws-cdk/cloud-assembly-schema" "1.75.0"
+    "@aws-cdk/core" "1.75.0"
+    "@aws-cdk/cx-api" "1.75.0"
+    "@aws-cdk/region-info" "1.75.0"
+    constructs "^3.2.0"
+
 "@aws-cdk/aws-events@1.75.0":
   version "1.75.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-events/-/aws-events-1.75.0.tgz#9ba5a447a73f808313959242822e84aaff42dd72"
@@ -175,12 +211,42 @@
     "@aws-cdk/region-info" "1.75.0"
     constructs "^3.2.0"
 
+"@aws-cdk/aws-kinesis@1.75.0":
+  version "1.75.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-kinesis/-/aws-kinesis-1.75.0.tgz#6c9fcb14444e496fb78f76231a1c138be24eeb15"
+  integrity sha512-77z1vzzMTKiNKJwHpFUX45QUrSO8t3v5DM8dSrWTbC9yNsoZXhGUNodAOFygUgoX1PkJxyJpEGXPWELsoj0OZA==
+  dependencies:
+    "@aws-cdk/aws-iam" "1.75.0"
+    "@aws-cdk/aws-kms" "1.75.0"
+    "@aws-cdk/aws-logs" "1.75.0"
+    "@aws-cdk/core" "1.75.0"
+    constructs "^3.2.0"
+
 "@aws-cdk/aws-kms@1.75.0":
   version "1.75.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-kms/-/aws-kms-1.75.0.tgz#27c2d47f24b33f5760176b3b228541add8305cbf"
   integrity sha512-UckWCc9u3Ft+6uv+U693NoazYweUq+VTMg1R9aMIw4ieHVNg+AFQzSZL+Et5X1788Cb69GTem0wTTIiRiVlwpg==
   dependencies:
     "@aws-cdk/aws-iam" "1.75.0"
+    "@aws-cdk/core" "1.75.0"
+    constructs "^3.2.0"
+
+"@aws-cdk/aws-lambda-event-sources@^1.75.0":
+  version "1.75.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-event-sources/-/aws-lambda-event-sources-1.75.0.tgz#60e0ccd628c00488e3e1107a880ec6d8244285bf"
+  integrity sha512-Oub3kYfV/LKwGHNb7thY0SsPLScApNcU2Ne8yves3Drg1Dva4ZjIsT4mgkRgrPVoRdIca7wnlDhCPoRyXmkhWA==
+  dependencies:
+    "@aws-cdk/aws-apigateway" "1.75.0"
+    "@aws-cdk/aws-dynamodb" "1.75.0"
+    "@aws-cdk/aws-events" "1.75.0"
+    "@aws-cdk/aws-iam" "1.75.0"
+    "@aws-cdk/aws-kinesis" "1.75.0"
+    "@aws-cdk/aws-lambda" "1.75.0"
+    "@aws-cdk/aws-s3" "1.75.0"
+    "@aws-cdk/aws-s3-notifications" "1.75.0"
+    "@aws-cdk/aws-sns" "1.75.0"
+    "@aws-cdk/aws-sns-subscriptions" "1.75.0"
+    "@aws-cdk/aws-sqs" "1.75.0"
     "@aws-cdk/core" "1.75.0"
     constructs "^3.2.0"
 
@@ -256,6 +322,19 @@
     "@aws-cdk/cx-api" "1.75.0"
     constructs "^3.2.0"
 
+"@aws-cdk/aws-s3-notifications@1.75.0":
+  version "1.75.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-s3-notifications/-/aws-s3-notifications-1.75.0.tgz#3796b4040d3639c45ff1fdc606eb18e38f38e60b"
+  integrity sha512-H5CZNLbSIeBy7BpqSey/sBsCjARS39Pcx5KdJL/dEvWi9CkZ9j3kdNG3mTrJd4FbpA9/AmIpzlPLxXZcUoygQg==
+  dependencies:
+    "@aws-cdk/aws-iam" "1.75.0"
+    "@aws-cdk/aws-lambda" "1.75.0"
+    "@aws-cdk/aws-s3" "1.75.0"
+    "@aws-cdk/aws-sns" "1.75.0"
+    "@aws-cdk/aws-sqs" "1.75.0"
+    "@aws-cdk/core" "1.75.0"
+    constructs "^3.2.0"
+
 "@aws-cdk/aws-s3@1.75.0":
   version "1.75.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-s3/-/aws-s3-1.75.0.tgz#6aa8c2341b390de55db4518ff4701d11bb5caa46"
@@ -285,6 +364,18 @@
     "@aws-cdk/aws-kms" "1.75.0"
     "@aws-cdk/aws-lambda" "1.75.0"
     "@aws-cdk/aws-sam" "1.75.0"
+    "@aws-cdk/core" "1.75.0"
+    constructs "^3.2.0"
+
+"@aws-cdk/aws-sns-subscriptions@1.75.0":
+  version "1.75.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-sns-subscriptions/-/aws-sns-subscriptions-1.75.0.tgz#4720ba35eb7651d71e950bceeb44381dbedf92d4"
+  integrity sha512-uSnIOmDErQQFrR8wXUq81V4bISrHVBgUvl1nM+KxDIQSNRhGUZ3FW0cb8+dMyZvr4qk84qsDnHWktKx9cknvQg==
+  dependencies:
+    "@aws-cdk/aws-iam" "1.75.0"
+    "@aws-cdk/aws-lambda" "1.75.0"
+    "@aws-cdk/aws-sns" "1.75.0"
+    "@aws-cdk/aws-sqs" "1.75.0"
     "@aws-cdk/core" "1.75.0"
     constructs "^3.2.0"
 
