@@ -1,5 +1,5 @@
 import {AuthorizationType, GraphqlApi, Schema} from '@aws-cdk/aws-appsync'
-import {CfnOutput, Construct} from "@aws-cdk/core";
+import {CfnOutput, Construct, Duration, Expiration} from "@aws-cdk/core";
 
 export class AppSyncAPI extends Construct {
 
@@ -15,6 +15,9 @@ export class AppSyncAPI extends Construct {
             authorizationConfig: {
                 defaultAuthorization: {
                     authorizationType: AuthorizationType.API_KEY,
+                    apiKeyConfig: {
+                        expires: Expiration.after(Duration.days(365))
+                    }
                 },
             },
             xrayEnabled: true,

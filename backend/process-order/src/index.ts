@@ -4,8 +4,11 @@ import {appSync, dynamoDB} from "./client";
 import {DynamoDBStreamEvent} from "aws-lambda";
 import {Converter} from "aws-sdk/clients/dynamodb";
 import gql from 'graphql-tag';
+import 'isomorphic-fetch'
+import "es6-promise/auto"
 
 export const handler = async (event: DynamoDBStreamEvent): Promise<void> => {
+    console.log(`${JSON.stringify(event)}`)
     for (const record of event.Records) {
         if (record.eventName === 'INSERT') {
             const item = record.dynamodb?.NewImage
@@ -107,13 +110,17 @@ function calculateBetween0to10PercentOfAskPrice(askPrice: number) {
     return Math.floor(Math.random() * tenPercent)
 }
 
-async function publishOrderExecuted(completedTransaction: Transaction) {
-    const appSyncHydrated = await appSync.hydrated();
+async function publishOrderExecuted(transaction: Transaction) {
+    const appSyncClient = await appSync.hydrated();
     const mutation = gql(publishOrderExecutedMut)
     console.log(`${JSON.stringify(mutation)}`)
-    await appSyncHydrated.mutate({
-        mutation,
-        variables: {completedTransaction}
-    });
-    console.log('Mutation completed')
+    try {
+        await appSyncClient.mutate({
+            mutation,
+            variables: {transaction}
+        });
+        console.log('Mutation completed successfully')
+    } catch (e) {
+        console.log(`An error occurred calling mutation ${JSON.stringify(e)}`)
+    }
 }

@@ -16,7 +16,8 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
 
     //Process Order is triggered when a transaction created. Actually, the stream output all modification to the table and we'll have to keep only the 'INSERT'
     lambdas.processOrder.addEventSource(new DynamoEventSource(db.transactionTable, {
-      startingPosition: StartingPosition.TRIM_HORIZON
+      startingPosition: StartingPosition.TRIM_HORIZON,
+      retryAttempts: 0 // Disable retry. Infinite by default..=/
     }))
 
     const stockDS = api.addDynamoDbDataSource('PortfolioTableDS', db.stockTable)
@@ -43,12 +44,19 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
       typeName: 'Mutation',
       fieldName: 'placeOrder'
     })
+
     publishOrderExecutedDS.createResolver({
       typeName: 'Mutation',
       fieldName: 'publishOrderExecuted',
-      requestMappingTemplate: MappingTemplate.lambdaRequest(),
-      responseMappingTemplate: MappingTemplate.lambdaResult()
+      requestMappingTemplate: MappingTemplate.fromString(`{
+       "version": "2017-02-28", 
+       "payload": $util.toJson($ctx.arguments.transaction)}`
+      ),
+      responseMappingTemplate: MappingTemplate.fromString(`{
+       $util.toJson($ctx.result)
+      }`)
     })
+
     resetDS.createResolver({
       typeName: 'Mutation',
       fieldName: 'reset'
