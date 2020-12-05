@@ -20,7 +20,6 @@ export const handler = async (event: DynamoDBStreamEvent): Promise<void> => {
             }
         }
     }
-    return Promise.resolve()
 }
 
 function sleepRandomly() {

@@ -48,13 +48,13 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
     publishOrderExecutedDS.createResolver({
       typeName: 'Mutation',
       fieldName: 'publishOrderExecuted',
-      requestMappingTemplate: MappingTemplate.fromString(`{
+      requestMappingTemplate: MappingTemplate.fromString(`
+      {
        "version": "2017-02-28", 
-       "payload": $util.toJson($ctx.arguments.transaction)}`
+       "payload": $util.toJson($ctx.arguments.transaction)
+       }`
       ),
-      responseMappingTemplate: MappingTemplate.fromString(`{
-       $util.toJson($ctx.result)
-      }`)
+      responseMappingTemplate: MappingTemplate.fromString(`$util.toJson($ctx.result)`)
     })
 
     resetDS.createResolver({

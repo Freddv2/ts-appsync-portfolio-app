@@ -59,12 +59,12 @@ type Query {
 
 type Mutation {
     placeOrder(input: PlaceOrderInput!) : Transaction!
-    publishOrderExecuted(transaction: TransactionCompletedInput!) : Transaction!
+    publishOrderExecuted(transaction: TransactionCompletedInput!) : Transaction
     reset(table: String!) : Boolean
 }
 
 type Subscription {
-    onOrderExecuted: Transaction!
+    onOrderExecuted: Transaction
     @aws_subscribe(mutations: ["publishOrderExecuted"])
 }
 

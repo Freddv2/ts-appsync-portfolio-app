@@ -72,6 +72,7 @@ import { API } from '@aws-amplify/api'
 import * as queries from '../../../graphql/queries'
 import * as mutations from '../../../graphql/mutations'
 import * as subscriptions from '../../../graphql/subscriptions'
+import { graphqlOperation } from '@aws-amplify/api-graphql'
 
 export default {
   name: 'Transactions',
@@ -109,7 +110,7 @@ export default {
       this.loading = false
     },
     subscribeToOrderExecuted () {
-      API.graphql({ query: subscriptions.onOrderExecuted })
+      API.graphql(graphqlOperation(subscriptions.onOrderExecuted))
         .subscribe({
           next: (eventData) => {
             console.log(eventData)

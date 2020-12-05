@@ -83,6 +83,7 @@ export default {
   },
   methods: {
     async reset () {
+      this.loader = 'loading'
       const l = this.loader
       this[l] = !this[l]
       await API.graphql({
@@ -91,7 +92,9 @@ export default {
           table: 'STOCK'
         }
       })
+      this.stocks = []
       this.loader = null
+      this.loading = false
     }
   }
 }
