@@ -10,7 +10,10 @@ build
 *.map
 !jest.config.js
 !webpack.config.js
+!.eslintrc.js
 !decs.d.ts
+!.eslintignore
+!vue.config.js
 node_modules
 dist
 bundle
