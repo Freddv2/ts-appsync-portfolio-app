@@ -1,11 +1,13 @@
 import 'source-map-support/register'
 import {publishOrderExecutedMut, Status, Stock, Transaction} from './entity'
-import {appSync, dynamoDB} from "./client";
+import {appSyncConfig, dynamoDB} from "./client";
 import {DynamoDBStreamEvent} from "aws-lambda";
 import {Converter} from "aws-sdk/clients/dynamodb";
 import gql from 'graphql-tag';
 import 'isomorphic-fetch'
 import "es6-promise/auto"
+import axios from "axios";
+import {print} from "graphql";
 
 export const handler = async (event: DynamoDBStreamEvent): Promise<void> => {
     console.log(`${JSON.stringify(event)}`)
@@ -23,7 +25,7 @@ export const handler = async (event: DynamoDBStreamEvent): Promise<void> => {
 }
 
 function sleepRandomly() {
-    const sleepTime = Math.floor(Math.random() * 10000) + 2000 // Sleep for 2 sec + 0 to 10 seconds
+    const sleepTime = Math.floor(Math.random() * 3000) + 2000 // Sleep for 2 sec + 0 to 3 seconds
     return new Promise(resolve => setTimeout(resolve, sleepTime))
 }
 
@@ -109,16 +111,16 @@ function calculateBetween0to10PercentOfAskPrice(askPrice: number) {
     return Math.floor(Math.random() * tenPercent)
 }
 
-async function publishOrderExecuted(transaction: Transaction) {
-    const appSyncClient = await appSync.hydrated();
-    const mutation = gql(publishOrderExecutedMut)
-    console.log(`${JSON.stringify(mutation)}`)
+export async function publishOrderExecuted(transaction: Transaction): Promise<void> {
     try {
-        await appSyncClient.mutate({
-            mutation,
-            variables: {transaction}
+        await axios.post(appSyncConfig.url, {
+            query: print(gql(publishOrderExecutedMut)),
+            variables: {transaction},
+        }, {
+            headers: {
+                'x-api-key': appSyncConfig.apiKey
+            }
         });
-        console.log('Mutation completed successfully')
     } catch (e) {
         console.log(`An error occurred calling mutation ${JSON.stringify(e)}`)
     }

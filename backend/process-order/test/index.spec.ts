@@ -1,9 +1,9 @@
-import {Operation, publishOrderExecutedMut, Status, Transaction} from "../src/entity";
-import {appSync} from "../src/client";
-import gql from "graphql-tag";
+import {Operation, Status, Transaction} from "../src/entity";
+import {publishOrderExecuted} from "../src/index";
 
-test('should invoke mutation', async () => {
+test('should invoke mutation', () => {
     const transaction: Transaction = {
+        date: "2020-12-05",
         action: Operation.BUY,
         totalValue: 100,
         stock: 'TSLA',
@@ -11,26 +11,8 @@ test('should invoke mutation', async () => {
         shares: 1,
         finalPrice: 2,
         askPrice: 1,
-        date: '2020-12-05',
-        status: Status.PENDING,
-        transactionId: '1'
+        status: Status.COMPLETED,
+        transactionId: "1",
     }
-    const res = await publishOrderExecuted(transaction);
-    console.log(`${JSON.stringify(res)}`)
+    publishOrderExecuted(transaction)
 })
-
-async function publishOrderExecuted(transaction: Transaction) {
-    const appSyncClient = await appSync.hydrated();
-    const mutation = gql(publishOrderExecutedMut)
-    console.log(`${JSON.stringify(mutation)}`)
-    try {
-        const res = await appSyncClient.mutate({
-            mutation,
-            variables: {transaction}
-        });
-        console.log('Mutation completed successfully')
-        return res
-    } catch (e) {
-        console.log(`An error occurred calling mutation ${JSON.stringify(e)}`)
-    }
-}

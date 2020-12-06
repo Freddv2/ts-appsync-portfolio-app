@@ -15,15 +15,15 @@
     "package": "rimraf -rf ./bundle && webpack"
   },
   "dependencies": {
-    "app-sync": "^1.4.6",
     "aws-sdk": "^2.798.0",
-    "es6-promise": "^4.2.8",
+    "axios": "^0.21.0",
+    "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
-    "isomorphic-fetch": "^3.0.0",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.64",
+    "@types/graphql": "^14.5.0",
     "@types/jest": "^26.0.16",
     "jest": "^26.6.3",
     "ts-jest": "^26.4.4",

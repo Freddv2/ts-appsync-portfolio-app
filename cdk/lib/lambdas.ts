@@ -12,7 +12,7 @@ export class Lambdas extends Construct {
             runtime: Runtime.NODEJS_12_X,
             handler: 'bundle.handler',
             memorySize: 1024,
-            timeout: Duration.seconds(15),
+            timeout: Duration.seconds(10),
             code: Code.fromAsset('../backend/place-order/bundle'),
             environment: {
                 NODE_OPTIONS: '--enable-source-maps'
@@ -22,7 +22,7 @@ export class Lambdas extends Construct {
             runtime: Runtime.NODEJS_12_X,
             handler: 'bundle.handler',
             memorySize: 1024,
-            timeout: Duration.seconds(30), //Longer because we sleep randomly to simulate a time to do the transaction
+            timeout: Duration.seconds(10),
             code: Code.fromAsset('../backend/process-order/bundle'),
             environment: {
                 NODE_OPTIONS: '--enable-source-maps'
@@ -33,7 +33,7 @@ export class Lambdas extends Construct {
             runtime: Runtime.NODEJS_12_X,
             handler: 'bundle.handler',
             memorySize: 1024,
-            timeout: Duration.seconds(15),
+            timeout: Duration.seconds(10),
             code: Code.fromAsset('../backend/reset/bundle'),
             environment: {
                 NODE_OPTIONS: '--enable-source-maps'
