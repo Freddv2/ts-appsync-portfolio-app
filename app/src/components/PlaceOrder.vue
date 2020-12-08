@@ -81,7 +81,7 @@ export default {
     },
     async sell () {
       this.initSellLoadingButton()
-      await this.placeOrder(true)
+      await this.placeOrder(false)
       this.resetLoadingButtons()
     },
     async placeOrder (buy) {

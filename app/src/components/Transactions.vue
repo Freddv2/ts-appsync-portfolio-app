@@ -36,17 +36,41 @@
           </thead>
           <tbody>
             <tr
-              v-for="item in transactions"
+              v-for="(item,index) in transactions"
               :key="item.transaction"
             >
               <td>{{ item.date }}</td>
-              <td>{{ item.stock }}</td>
-              <td>{{ item.action }}</td>
+              <td>
+                <v-chip
+                  color="grey"
+                  small
+                  text-color="white"
+                >
+                  {{ item.stock }}
+                </v-chip>
+              </td>
+              <td>
+                <v-chip
+                  color="blue"
+                  small
+                  text-color="white"
+                >
+                  {{ item.action }}
+                </v-chip>
+              </td>
               <td>{{ item.shares }}</td>
               <td>{{ item.askPrice }}</td>
               <td>{{ item.finalPrice }}</td>
               <td>{{ item.totalValue }}</td>
-              <td>{{ item.status }}</td>
+              <td>
+                <v-chip
+                  :color="statusColor[index]"
+                  small
+                  text-color="white"
+                >
+                  {{ item.status }}
+                </v-chip>
+              </td>
             </tr>
           </tbody>
         </template>
@@ -83,17 +107,26 @@ export default {
       loading: false
     }
   },
-  created: function () {
-    this.subscribeToOrderExecuted()
+  computed: {
+    statusColor () {
+      return this.transactions.map(t => {
+        return t.status === 'COMPLETED' ? 'green' : 'orange'
+      })
+    }
   },
-  mounted: async function () {
+  created () {
+    this.subscribeToOrderExecuted()
+  }
+  ,
+  async mounted () {
     const res = await API.graphql({ query: queries.getTransactions })
     this.transactions = res.data.getTransactions
     this.$root.$on('new-transaction', (transaction) => {
       console.log(transaction)
       this.transactions.push(transaction)
     })
-  },
+  }
+  ,
   methods: {
     async reset () {
       this.loader = 'loading'
@@ -112,8 +145,17 @@ export default {
     subscribeToOrderExecuted () {
       API.graphql(graphqlOperation(subscriptions.onOrderExecuted))
         .subscribe({
-          next: (eventData) => {
-            console.log(eventData)
+          next: (event) => {
+            const completedTransaction = event?.value?.data?.onOrderExecuted
+            if (completedTransaction) {
+              console.log(`Completed transaction: ${JSON.stringify(completedTransaction)}`)
+              const transaction = this.transactions.find(t => t.transactionId === completedTransaction.transactionId)
+              transaction.status = completedTransaction.status
+              transaction.finalPrice = completedTransaction.finalPrice
+              transaction.totalValue = completedTransaction.totalValue
+            } else {
+              console.error(`Event result is undefined`)
+            }
           }
         })
     }
