@@ -78,8 +78,13 @@ export default {
     }
   },
   created: async function () {
-    const res = await API.graphql({ query: queries.getStocks })
-    this.stocks = res.data.getStocks
+    const res = await API.graphql({
+      query: queries.getPortfolio,
+      variables: {
+        id: '1'
+      }
+    })
+    this.stocks = res.data.getPortfolio.stocks
   },
   methods: {
     async reset () {

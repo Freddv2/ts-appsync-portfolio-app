@@ -116,11 +116,15 @@ export default {
   },
   created () {
     this.subscribeToOrderExecuted()
-  }
-  ,
+  },
   async mounted () {
-    const res = await API.graphql({ query: queries.getTransactions })
-    this.transactions = res.data.getTransactions
+    const res = await API.graphql({
+      query: queries.getPortfolio,
+      variables: {
+        id: '1'
+      }
+    })
+    this.transactions = res.data.getPortfolio.transactions
     this.$root.$on('new-transaction', (transaction) => {
       console.log(transaction)
       this.transactions.push(transaction)

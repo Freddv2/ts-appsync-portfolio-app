@@ -1,16 +1,21 @@
+type Portfolio {
+    id: String!
+    name: String!
+    stocks: [Stock]!
+    transactions: [Transaction]!
+}
 type Stock {
-    portfolioId: String!
     stock: String!
     shares: Int!
     buyPrice: Int!
     buyCost: Int!
     marketPrice: Int!
     totalValue: Int!
+    portfolio: [Portfolio!]
 }
 
 type Transaction {
-    portfolioId: String!
-    transactionId: String!
+    id: String!
     date: String!
     stock: String!
     shares: Int!
@@ -19,6 +24,7 @@ type Transaction {
     finalPrice: Int
     totalValue: Int
     status: Status!
+    portfolio: [Portfolio!]
 }
 
 enum Operation {
@@ -53,8 +59,7 @@ input PlaceOrderInput {
 }
 
 type Query {
-    getStocks: [Stock!]!
-    getTransactions: [Transaction!]!
+    getPortfolio(id: ID!): Portfolio
 }
 
 type Mutation {
