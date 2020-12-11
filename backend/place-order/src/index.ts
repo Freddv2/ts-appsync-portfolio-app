@@ -9,7 +9,7 @@ export const handler = async (event: AppSyncEvent): Promise<Transaction> => {
     const date = new Date().toISOString().replace('T', ' ').substr(0, 19)
     const transaction: Transaction = {
         portfolioId: order.portfolioId,
-        transactionId: id.string,
+        id: id.string,
         date: date,
         stock: order.stock,
         shares: order.shares,

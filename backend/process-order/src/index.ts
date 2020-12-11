@@ -1,13 +1,11 @@
 import 'source-map-support/register'
 import {publishOrderExecutedMut, Status, Stock, Transaction} from './entity'
-import {appSyncConfig, dynamoDB} from "./client";
-import {DynamoDBStreamEvent} from "aws-lambda";
-import {Converter} from "aws-sdk/clients/dynamodb";
-import gql from 'graphql-tag';
-import 'isomorphic-fetch'
-import "es6-promise/auto"
-import axios from "axios";
-import {print} from "graphql";
+import {appSyncConfig, dynamoDB} from "./client"
+import {DynamoDBStreamEvent} from "aws-lambda"
+import {Converter} from "aws-sdk/clients/dynamodb"
+import gql from 'graphql-tag'
+import axios from "axios"
+import {print} from "graphql"
 
 export const handler = async (event: DynamoDBStreamEvent): Promise<void> => {
     console.log(`${JSON.stringify(event)}`)
@@ -121,7 +119,8 @@ export async function publishOrderExecuted(transaction: Transaction): Promise<vo
                 'x-api-key': appSyncConfig.apiKey
             }
         });
+        console.info(`The order publish was successful. Transaction ${JSON.stringify(transaction)}`)
     } catch (e) {
-        console.log(`An error occurred calling mutation ${JSON.stringify(e)}`)
+        console.error(`An error occurred calling mutation ${JSON.stringify(e)}`)
     }
 }

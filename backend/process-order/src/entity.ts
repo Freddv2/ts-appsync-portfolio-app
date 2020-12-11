@@ -10,7 +10,7 @@ export interface Stock {
 
 export interface Transaction {
     portfolioId: string
-    transactionId: string
+    id: string
     date: string
     stock: string
     shares: number
@@ -34,8 +34,7 @@ export enum Status {
 export const publishOrderExecutedMut = /* GraphQL */ `
   mutation PublishOrderExecuted($transaction: TransactionCompletedInput!) {
     publishOrderExecuted(transaction: $transaction) {
-      portfolioId
-      transactionId
+      id
       date
       stock
       shares
@@ -44,6 +43,10 @@ export const publishOrderExecutedMut = /* GraphQL */ `
       finalPrice
       totalValue
       status
+      portfolio {
+        id
+        name
+      }
     }
   }
 `

@@ -153,7 +153,7 @@ export default {
             const completedTransaction = event?.value?.data?.onOrderExecuted
             if (completedTransaction) {
               console.log(`Completed transaction: ${JSON.stringify(completedTransaction)}`)
-              const transaction = this.transactions.find(t => t.transactionId === completedTransaction.transactionId)
+              const transaction = this.transactions.find(t => t.id === completedTransaction.id)
               transaction.status = completedTransaction.status
               transaction.finalPrice = completedTransaction.finalPrice
               transaction.totalValue = completedTransaction.totalValue

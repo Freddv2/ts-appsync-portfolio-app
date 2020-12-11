@@ -17,7 +17,7 @@ export interface PlaceOrderInput {
 
 export interface Transaction {
     portfolioId: string
-    transactionId: string
+    id: string
     date: string
     stock: string
     shares: number

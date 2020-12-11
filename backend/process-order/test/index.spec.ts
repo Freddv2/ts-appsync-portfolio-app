@@ -12,7 +12,7 @@ test('should invoke mutation', () => {
         finalPrice: 2,
         askPrice: 1,
         status: Status.COMPLETED,
-        transactionId: "1",
+        id: "1",
     }
     publishOrderExecuted(transaction)
 })

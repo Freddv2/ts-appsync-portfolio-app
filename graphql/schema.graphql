@@ -11,7 +11,7 @@ type Stock {
     buyCost: Int!
     marketPrice: Int!
     totalValue: Int!
-    portfolio: [Portfolio!]
+    portfolio: Portfolio
 }
 
 type Transaction {
@@ -24,7 +24,7 @@ type Transaction {
     finalPrice: Int
     totalValue: Int
     status: Status!
-    portfolio: [Portfolio!]
+    portfolio: Portfolio
 }
 
 enum Operation {
@@ -39,7 +39,7 @@ enum Status {
 
 input TransactionCompletedInput {
     portfolioId: String!
-    transactionId: String!
+    id: String!
     date: String!
     stock: String!
     shares: Int!

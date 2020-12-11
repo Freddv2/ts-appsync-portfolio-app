@@ -58,7 +58,7 @@ export default {
   name: 'PlaceOrder',
   data () {
     return {
-      portfolioId: 'Fred Portfolio',
+      portfolioId: '1',
       stock: '',
       shares: null,
       pricePerShare: null,

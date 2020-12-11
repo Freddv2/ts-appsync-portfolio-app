@@ -1,7 +1,5 @@
 import {EnvironmentCredentials} from "aws-sdk";
 import {DocumentClient} from "aws-sdk/clients/dynamodb";
-import 'isomorphic-fetch'
-import "es6-promise/auto"
 
 export const dynamoDB = new DocumentClient({
     endpointDiscoveryEnabled: false,

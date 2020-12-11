@@ -6,7 +6,7 @@ import {AppSyncEvent, Table} from './entity'
 export const handler = async (event: AppSyncEvent): Promise<boolean> => {
     const table = event.arguments.table
     if (table === 'TRANSACTION') {
-        await truncateTable(table, 'portfolioId', 'transactionId')
+        await truncateTable(table, 'portfolioId', 'id')
     } else if (table === 'STOCK') {
         await truncateTable(table, 'portfolioId', 'stock')
     } else {
