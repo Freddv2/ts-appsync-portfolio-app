@@ -110,9 +110,9 @@ export default {
       API.graphql(graphqlOperation(subscriptions.onOrderExecuted))
         .subscribe({
           next: (event) => {
+            console.log(event)
             const completedTransaction = event?.value?.data?.onOrderExecuted
             if (completedTransaction) {
-              console.log(`Completed transaction: ${JSON.stringify(completedTransaction)}. Updating portfolio...`)
               let stock = this.stocks.find(s => s.stock === completedTransaction.stock)
               if (completedTransaction.action === 'BUY') {
                 this.processBoughtStock(stock, completedTransaction)

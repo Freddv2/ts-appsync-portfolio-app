@@ -150,9 +150,9 @@ export default {
       API.graphql(graphqlOperation(subscriptions.onOrderExecuted))
         .subscribe({
           next: (event) => {
+            console.log(event)
             const completedTransaction = event?.value?.data?.onOrderExecuted
             if (completedTransaction) {
-              console.log(`Completed transaction: ${JSON.stringify(completedTransaction)}. Updating portfolio...`)
               const transaction = this.transactions.find(t => t.id === completedTransaction.id)
               transaction.status = completedTransaction.status
               transaction.finalPrice = completedTransaction.finalPrice
