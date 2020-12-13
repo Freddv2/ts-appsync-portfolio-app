@@ -14,6 +14,7 @@ build
 !decs.d.ts
 !.eslintignore
 !vue.config.js
+!custom-queries.js
 node_modules
 dist
 bundle

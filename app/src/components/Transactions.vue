@@ -93,7 +93,7 @@
 
 <script>
 import { API } from '@aws-amplify/api'
-import * as queries from '../../../graphql/queries'
+import * as queries from '../../../graphql/custom-queries'
 import * as mutations from '../../../graphql/mutations'
 import * as subscriptions from '../../../graphql/subscriptions'
 import { graphqlOperation } from '@aws-amplify/api-graphql'
@@ -114,12 +114,10 @@ export default {
       })
     }
   },
-  created () {
+  async created () {
     this.subscribeToOrderExecuted()
-  },
-  async mounted () {
     const res = await API.graphql({
-      query: queries.getPortfolio,
+      query: queries.getTransactions,
       variables: {
         id: '1'
       }
@@ -129,8 +127,7 @@ export default {
       console.log(transaction)
       this.transactions.push(transaction)
     })
-  }
-  ,
+  },
   methods: {
     async reset () {
       this.loader = 'loading'
