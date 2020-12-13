@@ -55,8 +55,10 @@ async function updatePortfolio(transaction: Transaction) {
 async function addToPortfolio(transaction: Transaction) {
     let stock = await findStock(transaction.portfolioId, transaction.stock)
     if (stock) {
-        stock.shares = stock.shares + transaction.shares
-        stock.totalValue = stock.totalValue + transaction.totalValue
+        stock.shares += transaction.shares
+        stock.buyPrice = (stock.buyPrice + transaction.finalPrice) / 2
+        stock.marketPrice = (stock.marketPrice + transaction.finalPrice) / 2
+        stock.totalValue += transaction.totalValue
     } else {
         stock = {
             portfolioId: transaction.portfolioId,
@@ -83,8 +85,9 @@ async function removeFromPortfolio(transaction: Transaction) {
                 }
             }).promise()
         } else {
-            stock.shares = stock.shares - transaction.shares
-            stock.totalValue = stock.totalValue - transaction.totalValue
+            stock.shares -= transaction.shares
+            stock.totalValue -= transaction.totalValue
+            stock.buyCost -= transaction.totalValue
             await dynamoDB.put({
                 TableName: 'STOCK',
                 Item: stock

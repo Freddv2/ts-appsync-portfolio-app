@@ -67,6 +67,8 @@
 import { API } from '@aws-amplify/api'
 import * as queries from '../../../graphql/queries'
 import * as mutations from '../../../graphql/mutations'
+import { graphqlOperation } from '@aws-amplify/api-graphql'
+import * as subscriptions from '../../../graphql/subscriptions'
 
 export default {
   name: 'Portfolio',
@@ -77,7 +79,10 @@ export default {
       loading: false
     }
   },
-  created: async function () {
+  created () {
+    this.subscribeToOrderExecuted()
+  },
+  async mounted () {
     const res = await API.graphql({
       query: queries.getPortfolio,
       variables: {
@@ -100,6 +105,52 @@ export default {
       this.stocks = []
       this.loader = null
       this.loading = false
+    },
+    subscribeToOrderExecuted () {
+      API.graphql(graphqlOperation(subscriptions.onOrderExecuted))
+        .subscribe({
+          next: (event) => {
+            const completedTransaction = event?.value?.data?.onOrderExecuted
+            if (completedTransaction) {
+              console.log(`Completed transaction: ${JSON.stringify(completedTransaction)}. Updating portfolio...`)
+              let stock = this.stocks.find(s => s.stock === completedTransaction.stock)
+              if (completedTransaction.action === 'BUY') {
+                this.processBoughtStock(stock, completedTransaction)
+              } else {
+                this.processSoldStock(stock, completedTransaction)
+              }
+            } else {
+              console.error(`Event result is undefined`)
+            }
+          }
+        })
+    },
+    processBoughtStock (stock, completedTransaction) {
+      if (stock) {
+        stock.shares += completedTransaction.shares
+        stock.buyPrice = (stock.buyPrice + completedTransaction.finalPrice) / 2
+        stock.marketPrice = (stock.marketPrice + completedTransaction.finalPrice) / 2
+        stock.totalValue += completedTransaction.totalValue
+      } else {
+        this.stocks.push({
+          portfolioId: '1',
+          stock: completedTransaction.stock,
+          shares: completedTransaction.shares,
+          buyPrice: completedTransaction.finalPrice,
+          buyCost: completedTransaction.totalValue,
+          marketPrice: completedTransaction.finalPrice,
+          totalValue: completedTransaction.totalValue,
+        })
+      }
+    },
+    processSoldStock (stock, completedTransaction) {
+      if (stock.shares === completedTransaction.shares) {
+        this.stocks = this.stocks.filter(el => el.stock !== stock.stock)
+      } else {
+        stock.shares -= completedTransaction.shares
+        stock.totalValue -= completedTransaction.totalValue
+        stock.buyCost -= completedTransaction.totalValue
+      }
     }
   }
 }
