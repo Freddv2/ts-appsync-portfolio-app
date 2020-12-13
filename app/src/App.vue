@@ -48,6 +48,16 @@ export default {
   },
   data () {
     return {}
+  },
+  async created () {
+    //A better way of fetching inital data would be to fetch all the portfolio info and pass it as a prop to children component.
+    //But for Demo purpose, we'll fetch data in child component to show GraphQL data return filtering capabilities
+    // const res = await API.graphql({
+    //   query: queries.getPortfolio,
+    //   variables: {
+    //     id: '1'
+    //   }
+    // })
   }
 }
 </script>
