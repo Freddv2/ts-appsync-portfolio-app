@@ -33,7 +33,7 @@ export class DynamoDB extends Construct {
             readCapacity: 1,
             writeCapacity: 1,
             removalPolicy: RemovalPolicy.DESTROY,
-            stream: StreamViewType.NEW_IMAGE // Stream all write
+            stream: StreamViewType.NEW_IMAGE // Stream all write. process-order Lambda Event Source
         });
     }
 }

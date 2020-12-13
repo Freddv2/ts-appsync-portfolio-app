@@ -56,8 +56,8 @@ async function addToPortfolio(transaction: Transaction) {
     let stock = await findStock(transaction.portfolioId, transaction.stock)
     if (stock) {
         stock.shares += transaction.shares
-        stock.buyPrice = (stock.buyPrice + transaction.finalPrice) / 2
-        stock.marketPrice = (stock.marketPrice + transaction.finalPrice) / 2
+        stock.buyPrice = Math.round((stock.buyPrice + transaction.finalPrice) / 2)
+        stock.marketPrice = Math.round((stock.marketPrice + transaction.finalPrice) / 2)
         stock.totalValue += transaction.totalValue
     } else {
         stock = {

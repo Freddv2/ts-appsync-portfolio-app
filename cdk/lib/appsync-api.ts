@@ -2,7 +2,6 @@ import {AuthorizationType, GraphqlApi, Schema} from '@aws-cdk/aws-appsync'
 import {CfnOutput, Construct, Duration, Expiration} from "@aws-cdk/core";
 
 export class AppSyncAPI extends Construct {
-
     readonly api: GraphqlApi
 
     constructor(scope: Construct, id: string) {
@@ -20,7 +19,6 @@ export class AppSyncAPI extends Construct {
                     }
                 },
             },
-            xrayEnabled: true,
         });
 
         // Prints out the AppSync GraphQL endpoint to the terminal
