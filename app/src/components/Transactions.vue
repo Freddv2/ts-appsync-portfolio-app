@@ -123,6 +123,7 @@ export default {
       }
     })
     this.transactions = res.data.getPortfolio.transactions
+    //Listener on Place Order
     this.$root.$on('new-transaction', (transaction) => {
       console.log(transaction)
       this.transactions.push(transaction)

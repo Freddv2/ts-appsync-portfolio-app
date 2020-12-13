@@ -81,7 +81,6 @@ export default {
   },
   async created () {
     this.subscribeToOrderExecuted()
-    //Getting
     const res = await API.graphql({
       query: queries.getStocks,
       variables: {
@@ -126,11 +125,14 @@ export default {
     },
     processBoughtStock (stock, completedTransaction) {
       if (stock) {
+        //Already had stock, update share number
         stock.shares += completedTransaction.shares
         stock.buyPrice = (stock.buyPrice + completedTransaction.finalPrice) / 2
         stock.marketPrice = (stock.marketPrice + completedTransaction.finalPrice) / 2
         stock.totalValue += completedTransaction.totalValue
       } else {
+
+        //New stock,
         this.stocks.push({
           portfolioId: '1',
           stock: completedTransaction.stock,
@@ -144,8 +146,10 @@ export default {
     },
     processSoldStock (stock, completedTransaction) {
       if (stock.shares === completedTransaction.shares) {
+        //Sold all the shares, removes stock from list
         this.stocks = this.stocks.filter(el => el.stock !== stock.stock)
       } else {
+        //Partially sold the shares, update share number
         stock.shares -= completedTransaction.shares
         stock.totalValue -= completedTransaction.totalValue
         stock.buyCost -= completedTransaction.totalValue
