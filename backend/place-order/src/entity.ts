@@ -7,6 +7,7 @@ export interface AppSyncEvent {
     }
 }
 
+//TODO a better way to always stay in sync & reduce code duplication, would be to use GraphQL Typescript Codegen to generate entities. I did not have the time to expirement with that
 export interface PlaceOrderInput {
     portfolioId: string
     stock: string

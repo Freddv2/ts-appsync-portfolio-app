@@ -7,6 +7,10 @@ export const dynamoDB = new DocumentClient({
     endpoint: 'http://dynamodb.ca-central-1.amazonaws.com',
 })
 
+/**
+ * These configs comes from the cdk appsync deployment output
+ *
+ */
 export const appSyncConfig = {
     url: 'https://khaoqjzbujftdeifvfepjmgocm.appsync-api.ca-central-1.amazonaws.com/graphql',
     apiKey: 'da2-3gzwv4kkl5dhzbjjv52lbjnzvq'

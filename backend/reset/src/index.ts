@@ -15,6 +15,13 @@ export const handler = async (event: AppSyncEvent): Promise<boolean> => {
     return true
 }
 
+/**
+ * Delete all items in a table. Not deleting & recreating the table because
+ * it breaks the permission defined in cdk
+ * @param table
+ * @param pkName
+ * @param skName
+ */
 async function truncateTable(table: Table, pkName: string, skName: string) {
     const res = await dynamoDB.scan({
         TableName: table,
@@ -24,11 +31,12 @@ async function truncateTable(table: Table, pkName: string, skName: string) {
         await dynamoDB.delete({
             TableName: table,
             Key: {
-                [pkName]: key[pkName],
+                [pkName]: key[pkName], // The square brace allow to use a variable as the key name
                 [skName]: key[skName],
             }
         }).promise();
     });
+    //If there was at least 1 item in the table, we wait for the promises to resolve
     if (deleteRequestsProm)
         await Promise.all(deleteRequestsProm)
 }

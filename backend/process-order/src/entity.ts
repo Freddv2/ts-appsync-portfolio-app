@@ -1,3 +1,4 @@
+//TODO Generate entities from the graphql schema :)
 export interface Stock {
     portfolioId: string
     stock: string
@@ -31,6 +32,7 @@ export enum Status {
     COMPLETED = "COMPLETED"
 }
 
+//Taken from amplify code gen (graphql/mutation.js)
 export const publishOrderExecutedMut = /* GraphQL */ `
   mutation PublishOrderExecuted($transaction: TransactionCompletedInput!) {
     publishOrderExecuted(transaction: $transaction) {
