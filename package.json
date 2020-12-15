@@ -1,0 +1,15 @@
+{
+  "name": "working-lunch-2-appsync",
+  "version": "1.0.0",
+  "repository": "git@git.okiok.com:okiok-dev/working-lunch-2-appsync.git",
+  "license": "MIT",
+  "private": true,
+  "workspaces": ["app","backend/*","cdk"],
+  "scripts": {
+    "bootstrap": "yarn install",
+    "build-backend": "yarn workspace  run build",
+    "serve": "yarn workspace app run serve",
+    "deploy": "yarn workspace backend run build && yarn workspace cdk run deploy",
+    "graphql-codegen":"cd graphql && amplify codegen"
+  }
+}

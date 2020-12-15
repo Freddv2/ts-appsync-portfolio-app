@@ -6,3 +6,4 @@ export const dynamoDB = new DocumentClient({
     credentials: new EnvironmentCredentials('AWS'),
     endpoint: 'http://dynamodb.ca-central-1.amazonaws.com',
 })
+
