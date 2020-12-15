@@ -12,6 +12,6 @@ export const dynamoDB = new DocumentClient({
  *
  */
 export const appSyncConfig = {
-    url: 'https://khaoqjzbujftdeifvfepjmgocm.appsync-api.ca-central-1.amazonaws.com/graphql',
-    apiKey: 'da2-3gzwv4kkl5dhzbjjv52lbjnzvq'
+    url: 'https://rsa3clwtlrdxffxakhodogmfr4.appsync-api.ca-central-1.amazonaws.com/graphql',
+    apiKey: 'da2-dr3ho4p63jecbihvfpvpuc5m5i'
 }

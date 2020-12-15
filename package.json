@@ -7,9 +7,9 @@
   "workspaces": ["app","backend/*","cdk"],
   "scripts": {
     "bootstrap": "yarn install",
-    "build-backend": "yarn workspace  run build",
+    "build-backend": "yarn workspace place-order run build && yarn workspace process-order run build && yarn workspace reset run build",
     "serve": "yarn workspace app run serve",
-    "deploy": "yarn workspace backend run build && yarn workspace cdk run deploy",
-    "graphql-codegen":"cd graphql && amplify codegen"
+    "deploy": "yarn run build-backend && yarn workspace cdk run deploy",
+    "graphql-codegen": "cd graphql && amplify codegen"
   }
 }

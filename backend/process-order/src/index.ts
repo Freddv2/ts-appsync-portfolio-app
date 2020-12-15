@@ -131,7 +131,7 @@ export async function publishOrderExecuted(transaction: Transaction): Promise<vo
                 'x-api-key': appSyncConfig.apiKey
             }
         });
-        console.info(`The order publish was successful. Transaction ${JSON.stringify(transaction)}`)
+        console.info(`The order publish was successful. Transaction ${JSON.stringify({transaction})}`)
     } catch (e) {
         console.error(`An error occurred calling mutation ${JSON.stringify(e)}`)
     }

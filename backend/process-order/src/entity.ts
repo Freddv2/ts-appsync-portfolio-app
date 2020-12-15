@@ -45,10 +45,6 @@ export const publishOrderExecutedMut = /* GraphQL */ `
       finalPrice
       totalValue
       status
-      portfolio {
-        id
-        name
-      }
     }
   }
 `
