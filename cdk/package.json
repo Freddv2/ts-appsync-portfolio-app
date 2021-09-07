@@ -8,7 +8,7 @@
     "build": "tsc && cdk synth",
     "watch": "tsc -w",
     "test": "jest",
-    "deploy": "yarn run build && cdk deploy --profile okiok-dev --require-approval never"
+    "deploy": "yarn run build && cdk deploy --profile dev --require-approval never"
   },
   "devDependencies": {
     "@aws-cdk/assert": "*",

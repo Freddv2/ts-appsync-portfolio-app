@@ -1,7 +1,6 @@
 {
   "name": "working-lunch-2-appsync",
   "version": "1.0.0",
-  "repository": "git@git.okiok.com:okiok-dev/working-lunch-2-appsync.git",
   "license": "MIT",
   "private": true,
   "workspaces": ["app","backend/*","cdk"],

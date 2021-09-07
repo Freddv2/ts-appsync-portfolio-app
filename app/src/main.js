@@ -5,6 +5,11 @@ import Amplify from '@aws-amplify/core'
 
 Vue.config.productionTip = false
 
+/**
+ * These configs comes from the cdk appsync deployment output
+ * Replace these after a successful deployment
+ * TODO use environnement variable instead
+ */
 const appSyncConfig = {
   aws_appsync_graphqlEndpoint: 'https://rsa3clwtlrdxffxakhodogmfr4.appsync-api.ca-central-1.amazonaws.com/graphql',
   aws_appsync_region: 'ca-central-1',

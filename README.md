@@ -28,7 +28,7 @@ From the project root, run: ```yarn run graphql-codegen```
 
 From the project root, run: ```yarn run deploy```
 
-* _An AWS profile named `okiok-dev` have to exist for this command to work. To change this, go to cdk/package.json and change ```--profile okiok-dev``` to your profile_
+* _An AWS profile have to exist for this command to work. To specify a profile this, go to cdk/package.json and change ```--profile dev``` to your profile_
 * _This command will also compile & package the lambdas in the backend folder_
 
 # Build & Serve App

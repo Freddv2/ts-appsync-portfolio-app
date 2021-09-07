@@ -1,10 +1,10 @@
+import {KeyCondition, MappingTemplate} from "@aws-cdk/aws-appsync";
+import {StartingPosition} from "@aws-cdk/aws-lambda";
+import {DynamoEventSource} from "@aws-cdk/aws-lambda-event-sources";
 import * as cdk from '@aws-cdk/core';
 import {AppSyncAPI} from "./appsync-api";
 import {DynamoDB} from "./dynamodb";
-import {KeyCondition, MappingTemplate} from "@aws-cdk/aws-appsync";
 import {Lambdas} from "./lambdas";
-import {DynamoEventSource} from "@aws-cdk/aws-lambda-event-sources";
-import {StartingPosition} from "@aws-cdk/aws-lambda";
 
 export class AppSyncWorkingLunchStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -12,7 +12,9 @@ export class AppSyncWorkingLunchStack extends cdk.Stack {
 
     const api = new AppSyncAPI(this, 'AppSyncAPI').api
     const db = new DynamoDB(this, 'DynamoDB')
-    const lambdas = new Lambdas(this, 'Lambdas')
+    const lambdas = new Lambdas(this, 'Lambdas', {
+      api: api
+    })
 
     //Process Order is triggered when a transaction created. Actually, the stream output all modification to the table and we'll have to keep only the 'INSERT'
     lambdas.processOrder.addEventSource(new DynamoEventSource(db.transactionTable, {
