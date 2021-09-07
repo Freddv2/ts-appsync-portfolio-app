@@ -1,4 +1,4 @@
-# working-lunch-2-appsync
+# ts-appsync-portfolio-app
 
 # Prerequisite
 
